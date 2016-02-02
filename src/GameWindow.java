@@ -12,19 +12,26 @@ public class GameWindow extends JFrame {
 	public static final int CANVAS_HEIGHT = 480;	
    
 	private DrawCanvas mCanvas;
+	private GameLogic mGameLogic;
 	
 	public GameWindow() {
 		mCanvas = new DrawCanvas();
 		mCanvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-		
 		Container cp = getContentPane();
 		cp.add(mCanvas);
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setTitle("Asteroids");
-		
-		this.setVisible(true);
+		this.setVisible(true);	
+	}
+	
+	public void Paint(){
+		mCanvas.repaint();
+	}
+	
+	public void SetGameLogic(GameLogic a){
+		mGameLogic = a;
 	}
 	
 	private class DrawCanvas extends JPanel {
@@ -33,12 +40,10 @@ public class GameWindow extends JFrame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);     // paint parent's background
 			setBackground(Color.BLACK);  // set background color for this JPanel
-
-			// Your custom painting codes. For example,
-			// Drawing primitive shapes
-			g.setColor(Color.YELLOW);    // set the drawing color
-			g.drawOval(100, 180, 10, 10);
+			
+			if(mGameLogic != null){
+				mGameLogic.Draw(g);
+			}
 		}	
 	}
-
 }
