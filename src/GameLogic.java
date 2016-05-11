@@ -3,19 +3,23 @@ import java.awt.Graphics;
 public class GameLogic {
 	
 	private Asteroid mAsteroid;
-	private Asteroid mAsteroid2;
+	//private Asteroid mAsteroid2;
 	private GameWindow mGameWindow;
-	
-	
-	
+	private Ship mShip;
+	private UserInput mUserInput;
 
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
-		mAsteroid = new Asteroid(180, 150, 10, 15);
-		mAsteroid2 = new Asteroid(280, 250, 20, 25);
+		mAsteroid = new Asteroid(1, 150, 4, 4);
+		mShip = new Ship(GameWindow.CANVAS_WIDTH/2, GameWindow.CANVAS_HEIGHT/2);
+		mUserInput = new UserInput(mShip);
+		mGameWindow.RegisterKeyListener(mUserInput);
+		
+		//mAsteroid2 = new Asteroid(340, 250, 8, 8);
 		
 		StartGameLoop();
 	}
+	
 
 	private void StartGameLoop() {
 		mGameWindow.SetGameLogic(this);
@@ -33,20 +37,25 @@ public class GameLogic {
 		while (true) {
 			Update();
 			mGameWindow.Paint();
+			mUserInput.Update();
+
 		}
 	}
 	
 	private void Update() {
-		// update game logic
+		mAsteroid.Update();
+		mShip.Update();
 
 	}
 	
 	public void Draw(Graphics g) {
 		// rendering logic
 		mAsteroid.Draw(g);
-		mAsteroid2.Draw(g);
+		mShip.Draw(g);
+		//mAsteroid2.Draw(g);
 		
 	}
+	
 	
 	
 	
