@@ -1,69 +1,75 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Polygon;
-
 
 public class Ship {
 
-	
-	private double mXAxis;
-	private double mYAxis;
+
+
 	private final double SPEED_BUFFER = 0.00001;
 
-
 	// SHIP
-	 private int mPlayerX[];
-	 private int mPlayerY[];
-	 private int mPlayerNpoints;
-	 private Polygon mShipPoly;
+	private int mPlayerX[];
+	private int mPlayerY[];
+	private Polygon mShipPoly;
+	private Point.Double mPosition;
+	
+	private Point mShipPointsArray[];
+	
+	int mRenderArrayX[];
+	int mRenderArrayY[];
 
-	public Ship(int xAxis, int yAxis) {
-		mXAxis = xAxis;
-		mYAxis = yAxis;
+	public Ship(Point.Double startPoint) {
+		mPosition = startPoint;
 		
-		mPlayerNpoints = 4;
+		
 		mPlayerX = new int[0];
 		mPlayerY = new int[0];
+		mShipPointsArray = new Point[]{
+				new Point(5, -7),
+				new Point(-15, 0),
+				new Point(5 ,7),
+				new Point(0, 0)};
+		
+		mRenderArrayX = new int[mShipPointsArray.length];
+		mRenderArrayY = new int[mShipPointsArray.length];		
 	}
-
 
 	public void Draw(Graphics g) {
-		ShipUpdatePosistion();
-		
+
+		for(int i = 0; i < mShipPointsArray.length; i++){
+			Point currentPoint = mShipPointsArray[i];
+			mRenderArrayX[i] = currentPoint.x + (int)mPosition.x;
+			mRenderArrayY[i] = currentPoint.y + (int)mPosition.y;
+		}
 		g.setColor(Color.BLUE);
-		g.drawPolygon(mShipPoly);	
-	}
-	
-	public void ShipUpdatePosistion(){
-		mPlayerX = new int[] { (int)mXAxis + 5, (int)mXAxis - 15, (int)mXAxis + 5, (int)mXAxis};
-		mPlayerY = new int[] { (int)mYAxis - 7, (int)mYAxis, (int)mYAxis + 7, (int)mYAxis};
-		mShipPoly = new Polygon(mPlayerX, mPlayerY, mPlayerNpoints);
-	
+		g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);		
 	}
 
 	public void Update() {
-		
+
 	}
 
 	public void Move(double deltaX, double deltaY) {
 		double maxWidth = GameWindow.CANVAS_WIDTH;
 		double maxHeight = GameWindow.CANVAS_HEIGHT;
 
-		if (mXAxis > maxWidth) {
-			mXAxis = 0;
+		if (mPosition.x > maxWidth) {
+			mPosition.x = 0;
 		}
-		if (mXAxis < 0) {
-			mXAxis = (int) maxWidth;
+		if (mPosition.x < 0) {
+			mPosition.x = (int) maxWidth;
 		}
 
-		if (mYAxis > maxHeight) {
-			mYAxis = 0;
+		if (mPosition.y > maxHeight) {
+			mPosition.y = 0;
 		}
-		if (mYAxis < 0) {
-			mYAxis = (int) maxHeight;
+		if (mPosition.y < 0) {
+			mPosition.y = (int) maxHeight;
 		}
-		mXAxis += deltaX * SPEED_BUFFER;
-		mYAxis += deltaY * SPEED_BUFFER;
+		mPosition.x += deltaX * SPEED_BUFFER;
+		mPosition.y += deltaY * SPEED_BUFFER;
 	}
 
 }

@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class GameLogic {
 	
@@ -11,7 +12,7 @@ public class GameLogic {
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
 		mAsteroid = new Asteroid(1, 150, 4, 4);
-		mShip = new Ship(GameWindow.CANVAS_WIDTH/2, GameWindow.CANVAS_HEIGHT/2);
+		mShip = new Ship(new Point.Double (GameWindow.CANVAS_WIDTH/2, GameWindow.CANVAS_HEIGHT/2));
 		mUserInput = new UserInput(mShip);
 		mGameWindow.RegisterKeyListener(mUserInput);
 		
