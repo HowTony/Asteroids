@@ -8,7 +8,7 @@ public class Ship {
 	
 	private double mXAxis;
 	private double mYAxis;
-	private final double SPEED_BUFFER = 0.000007;
+	private final double SPEED_BUFFER = 0.00001;
 
 
 	// SHIP
@@ -35,9 +35,10 @@ public class Ship {
 	}
 	
 	public void ShipUpdatePosistion(){
-		mPlayerX = new int[] { (int)mXAxis + 20, (int)mXAxis, (int)mXAxis + 20, (int)mXAxis + 15};
-		mPlayerY = new int[] { (int)mYAxis, (int)mYAxis + 7, (int)mYAxis + 15, (int)mYAxis + 7};
+		mPlayerX = new int[] { (int)mXAxis + 5, (int)mXAxis - 15, (int)mXAxis + 5, (int)mXAxis};
+		mPlayerY = new int[] { (int)mYAxis - 7, (int)mYAxis, (int)mYAxis + 7, (int)mYAxis};
 		mShipPoly = new Polygon(mPlayerX, mPlayerY, mPlayerNpoints);
+	
 	}
 
 	public void Update() {
@@ -48,20 +49,17 @@ public class Ship {
 		double maxWidth = GameWindow.CANVAS_WIDTH;
 		double maxHeight = GameWindow.CANVAS_HEIGHT;
 
-		double distanceX = mXAxis += deltaX * SPEED_BUFFER;
-		double distanceY = mYAxis += deltaY * SPEED_BUFFER;
-
-		if (distanceX > maxWidth) {
+		if (mXAxis > maxWidth) {
 			mXAxis = 0;
 		}
-		if (distanceX < 0) {
+		if (mXAxis < 0) {
 			mXAxis = (int) maxWidth;
 		}
 
-		if (distanceY > maxHeight) {
+		if (mYAxis > maxHeight) {
 			mYAxis = 0;
 		}
-		if (distanceY < 0) {
+		if (mYAxis < 0) {
 			mYAxis = (int) maxHeight;
 		}
 		mXAxis += deltaX * SPEED_BUFFER;
