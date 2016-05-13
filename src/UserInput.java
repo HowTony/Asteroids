@@ -23,8 +23,8 @@ public class UserInput implements KeyListener {
 		int key = e.getKeyCode();
 		switch (key) {
 		case KeyEvent.VK_W:
-
 			mInputs[KeyEvent.VK_W] = true;
+			s_isPressed = true;
 			break;
 		case KeyEvent.VK_S:
 			mInputs[KeyEvent.VK_S] = true;
@@ -33,13 +33,11 @@ public class UserInput implements KeyListener {
 			mInputs[KeyEvent.VK_D] = true;
 			s_isPressed = true;
 			s_keyHeldCode = KeyEvent.VK_D;
-			System.out.println("Rotate Right");
 			break;
 		case KeyEvent.VK_A:
 			mInputs[KeyEvent.VK_A] = true;
 			s_isPressed = true;
 			s_keyHeldCode = KeyEvent.VK_A;
-			System.out.println("Rotate Left");
 			break;
 		}
 
@@ -51,9 +49,11 @@ public class UserInput implements KeyListener {
 		switch (key) {
 		case KeyEvent.VK_W:
 			mInputs[KeyEvent.VK_W] = false;
+			s_isPressed = false;
 			break;
 		case KeyEvent.VK_S:
 			mInputs[KeyEvent.VK_S] = false;
+			s_isPressed = false;
 			break;
 		case KeyEvent.VK_D:
 			mInputs[KeyEvent.VK_D] = false;
@@ -73,14 +73,22 @@ public class UserInput implements KeyListener {
 	}
 
 	public void Update() {
-		if (mInputs[KeyEvent.VK_W]) {
-			mShip.Move(0, -1);
-		}
-		if (mInputs[KeyEvent.VK_S]) {
-			mShip.Move(0, 1);
-		}
-	
-
+//		if (mInputs[KeyEvent.VK_W]) {
+//
+//			mShip.setmMoveAngle(mShip.getRotationAngle());
+//			mShip.increaseXVelocity(mShip.shipXMoveAngle(mShip.getmMoveAngle()));
+//			mShip.increaseYVelocity(mShip.shipYMoveAngle(mShip.getmMoveAngle()));
+//			mShip.move();
+//
+//		}
+//		if (mInputs[KeyEvent.VK_D]) {
+//			mShip.increaseRotationAngle();
+//	
+//		}
+//		if (mInputs[KeyEvent.VK_A]) {
+//			mShip.decreaseRotationAngle();
+//	
+//		}
 	}
 
 	public static boolean isPressed() {

@@ -56,9 +56,7 @@ public class GameLogic {
 	
 	public void Draw(Graphics g) {
 		// rendering logic
-		
-	
-		
+
 		mAsteroid.Draw(g);
 		mShip.Draw(g);
 		//mAsteroid2.Draw(g);
