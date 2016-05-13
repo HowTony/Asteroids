@@ -1,50 +1,52 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 
 public class Ship {
 
-
-
-	private final double SPEED_BUFFER = 0.00001;
+	//private final double SPEED_BUFFER = 0.00001;
 
 	// SHIP
-	private int mPlayerX[];
-	private int mPlayerY[];
-	private Polygon mShipPoly;
-	private Point.Double mPosition;
-	
+
 	private Point mShipPointsArray[];
-	
 	int mRenderArrayX[];
 	int mRenderArrayY[];
+	static double mRotationAngle;
 
-	public Ship(Point.Double startPoint) {
-		mPosition = startPoint;
-		
-		
-		mPlayerX = new int[0];
-		mPlayerY = new int[0];
-		mShipPointsArray = new Point[]{
-				new Point(5, -7),
-				new Point(-15, 0),
-				new Point(5 ,7),
-				new Point(0, 0)};
-		
+	public Ship() {
+		mShipPointsArray = new Point[] { 
+				new Point(-13, -15),
+				new Point(30, 0), 
+				new Point(-13, 15), 
+				new Point(-5, 0),
+				new Point(-13, -15) };
+
 		mRenderArrayX = new int[mShipPointsArray.length];
-		mRenderArrayY = new int[mShipPointsArray.length];		
+		mRenderArrayY = new int[mShipPointsArray.length];
+		mRotationAngle = 0;
 	}
 
 	public void Draw(Graphics g) {
-
-		for(int i = 0; i < mShipPointsArray.length; i++){
-			Point currentPoint = mShipPointsArray[i];
-			mRenderArrayX[i] = currentPoint.x + (int)mPosition.x;
-			mRenderArrayY[i] = currentPoint.y + (int)mPosition.y;
+	
+		if (UserInput.isPressed() && UserInput.getkeyHeldCode() == 68) {
+			mRotationAngle += .05;
+		} else {
+			if (UserInput.isPressed() && UserInput.getkeyHeldCode() == 65) {
+				mRotationAngle -= .05;
+			}
 		}
-		g.setColor(Color.BLUE);
-		g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);		
+		
+		AffineTransform af = new AffineTransform();
+		Graphics2D graphicSettings = (Graphics2D)g;
+
+		graphicSettings.setTransform(af);
+		graphicSettings.translate(GameWindow.CANVAS_WIDTH/ 2, GameWindow.CANVAS_HEIGHT /2);
+		graphicSettings.rotate(Math.toRadians(mRotationAngle));
+
+		graphicSettings.setColor(Color.BLUE);
+		graphicSettings.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 	}
 
 	public void Update() {
@@ -52,24 +54,7 @@ public class Ship {
 	}
 
 	public void Move(double deltaX, double deltaY) {
-		double maxWidth = GameWindow.CANVAS_WIDTH;
-		double maxHeight = GameWindow.CANVAS_HEIGHT;
-
-		if (mPosition.x > maxWidth) {
-			mPosition.x = 0;
-		}
-		if (mPosition.x < 0) {
-			mPosition.x = (int) maxWidth;
-		}
-
-		if (mPosition.y > maxHeight) {
-			mPosition.y = 0;
-		}
-		if (mPosition.y < 0) {
-			mPosition.y = (int) maxHeight;
-		}
-		mPosition.x += deltaX * SPEED_BUFFER;
-		mPosition.y += deltaY * SPEED_BUFFER;
+	
 	}
 
 }
