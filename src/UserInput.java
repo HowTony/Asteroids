@@ -59,16 +59,18 @@ public class UserInput implements KeyListener {
 	
 	public void Update(){
 		if(mInputs[KeyEvent.VK_W]){
-			mShip.Move(0, -1);
+			mShip.Move(1);
 		}
 		if(mInputs[KeyEvent.VK_S]){
-			mShip.Move(0, 1);
+			mShip.Move(-1);
 		}
 		if(mInputs[KeyEvent.VK_D]){
-			mShip.Move(1, 0);
+//			mShip.Move(1, 0);
+			mShip.Rotate(1);
 		}
 		if(mInputs[KeyEvent.VK_A]){
-			mShip.Move(-1, 0);
+//			mShip.Move(-1, 0);
+			mShip.Rotate(-1);
 		}
 		
 	}
