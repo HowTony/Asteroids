@@ -1,80 +1,81 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Polygon;
+import java.awt.Point;
 
-public class Asteroid {
-	
-	private double mXAxis;
-	private double mYAxis;
-	private int mWidth;
-	private int mHeight;
-	private final float SPEED_BUFFER = 0.000001f;
-	
-	
-	
-//	private Polygon mFirstLargeAsteroid;
+public class Asteroid{
 
-//	private int mLargeFirstX[] = {68, 71, 56, 56, 67, 79, 93, 107, 92};
-//	private int mLargeFirstY[] = {12, 24, 27, 53, 46, 61, 50, 54, 7};
-//	private int mLargeFirstNpoints = 9;
-//	
-//	private Polygon mSecondLargeAsteroid;
-	
-//	private int xpoints1[] = {118, 121, 106, 106, 114, 118, 128, 143, 157, 153, 142};
-//	private int largeSecondY[] = {42, 54, 57, 83, 76, 86, 92, 80, 84, 59, 37};
-//	private int largeSecondNpoints = 11;
-	
-	
+	private final float SPEED_BUFFER = 0.000007f;
+	private final double ASTEROID_SCALE = 15D;
+	private Point.Double mPosition;
+	private Point.Double mLargeAsteroidPointsArray[];
+	private int mRenderArrayX[];
+	private int mRenderArrayY[];
 
+	private double mDeltaX;
+	private double mDeltaY;
 	
-	public Asteroid(double xAxis, double yAxis, int width, int height){
-		mXAxis = xAxis;
-		mYAxis = yAxis;
-		mWidth = width;
-		mHeight = height;
-//		mFirstLargeAsteroid = new Polygon(mLargeFirstX, mLargeFirstY, mLargeFirstNpoints);
-//		mSecondLargeAsteroid = new Polygon(xpoints1, largeSecondY, largeSecondNpoints);
+	public Asteroid(Point.Double startPoint){
+		mPosition = startPoint;
 		
+		 mDeltaX =(Math.random() * 2) - 1;
+		 mDeltaY =(Math.random() * 2) - 1;
+
+		mLargeAsteroidPointsArray = new Point.Double[] { 
+				new Point.Double(-2, -1), 
+				new Point.Double(0, -2), 
+				new Point.Double(0, -1),
+				new Point.Double(1, -2), 
+				new Point.Double(2, -1), 
+				new Point.Double(2, 1),
+				new Point.Double(1, 1), 
+				new Point.Double(0, 2), 
+				new Point.Double(-1, 1),
+				new Point.Double(-2, 0)};
 		
-		
+		for (int i = 0; i < mLargeAsteroidPointsArray.length; ++i) {
+			mLargeAsteroidPointsArray[i].x *= ASTEROID_SCALE;
+			mLargeAsteroidPointsArray[i].y *= ASTEROID_SCALE;
+		}
+		mRenderArrayX = new int[mLargeAsteroidPointsArray.length];
+		mRenderArrayY = new int[mLargeAsteroidPointsArray.length];
 	}
 	
 	public void Draw(Graphics g){
+		for (int i = 0; i < mLargeAsteroidPointsArray.length; i++) {
+			Point.Double currentPoint = mLargeAsteroidPointsArray[i];
+			mRenderArrayX[i] = (int) currentPoint.x + (int) mPosition.x;
+			mRenderArrayY[i] = (int) currentPoint.y + (int) mPosition.y;
+		}
 		g.setColor(Color.RED);
-//		
-//		g.drawPolygon(mFirstLargeAsteroid);
-//		
-//		g.setColor(Color.GREEN);
-//		
-//		g.drawPolygon(mSecondLargeAsteroid);
-		
-		g.drawOval((int)mXAxis, (int)mYAxis, mWidth, mHeight);
-		
-		
+		g.drawPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
 	}
 	
-	public double getXAxis() {
-		return mXAxis;
+	public void StartPoint(){
+		this.mPosition.x =(int)Math.random()* GameWindow.CANVAS_WIDTH;
+		this.mPosition.y =(int)Math.random()* GameWindow.CANVAS_HEIGHT;
 	}
-	
-	public double getYAxis() {
-		return mYAxis;
-	}
-	
-	
+
 	public void AsteroidMove(){
-	
+		double maxWidth = GameWindow.CANVAS_WIDTH;
+		double maxHeight = GameWindow.CANVAS_HEIGHT;
+		if (mPosition.x > maxWidth) {
+			mPosition.x = 0;
+		}
+		if (mPosition.x < 0) {
+			mPosition.x = maxWidth;
+		}
+		if (mPosition.y > maxHeight) {
+			mPosition.y = 0;
+		}
+		if (mPosition.y < 0) {
+			mPosition.y = maxHeight;
+		}
+		mPosition.x += mDeltaX * SPEED_BUFFER;
+		mPosition.y += mDeltaY * SPEED_BUFFER;
 	}
-	
-	
-	
-	
-	
+
 	public void Update(){
-		
+		AsteroidMove();
 	}
-
-
-	
 
 }

@@ -73,22 +73,20 @@ public class UserInput implements KeyListener {
 	}
 
 	public void Update() {
-//		if (mInputs[KeyEvent.VK_W]) {
-//
-//			mShip.setmMoveAngle(mShip.getRotationAngle());
-//			mShip.increaseXVelocity(mShip.shipXMoveAngle(mShip.getmMoveAngle()));
-//			mShip.increaseYVelocity(mShip.shipYMoveAngle(mShip.getmMoveAngle()));
-//			mShip.move();
-//
-//		}
-//		if (mInputs[KeyEvent.VK_D]) {
-//			mShip.increaseRotationAngle();
-//	
-//		}
-//		if (mInputs[KeyEvent.VK_A]) {
-//			mShip.decreaseRotationAngle();
-//	
-//		}
+		if(mInputs[KeyEvent.VK_W]){
+			mShip.Move(1);
+		}
+		if(mInputs[KeyEvent.VK_S]){
+			mShip.Move(-1);
+		}
+		if(mInputs[KeyEvent.VK_D]){
+//			mShip.Move(1, 0);
+			mShip.Rotate(1);
+		}
+		if(mInputs[KeyEvent.VK_A]){
+//			mShip.Move(-1, 0);
+			mShip.Rotate(-1);
+		}
 	}
 
 	public static boolean isPressed() {
