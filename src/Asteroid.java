@@ -20,6 +20,8 @@ public class Asteroid{
 		 mDeltaX =(Math.random() * 2) - 1;
 		 mDeltaY =(Math.random() * 2) - 1;
 
+
+
 		mLargeAsteroidPointsArray = new Point.Double[] { 
 				new Point.Double(-2, -1), 
 				new Point.Double(0, -2), 
