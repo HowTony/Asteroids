@@ -5,17 +5,16 @@ import java.awt.event.KeyListener;
 public class UserInput implements KeyListener {
 
 	private Ship mShip;
+	private MissileManager mMissileManager;
 	private boolean mInputs[];
+	private int i = 0;
 
 
-
-	private static boolean s_isPressed;
-	private static int s_keyHeldCode;
-
-	public UserInput(Ship ship) {
+	public UserInput(Ship ship, MissileManager mm) {
 		mShip = ship;
+		mMissileManager = mm;
 		mInputs = new boolean[128];
-		
+
 	}
 
 	@Override
@@ -24,20 +23,18 @@ public class UserInput implements KeyListener {
 		switch (key) {
 		case KeyEvent.VK_W:
 			mInputs[KeyEvent.VK_W] = true;
-			s_isPressed = true;
 			break;
 		case KeyEvent.VK_S:
 			mInputs[KeyEvent.VK_S] = true;
 			break;
 		case KeyEvent.VK_D:
 			mInputs[KeyEvent.VK_D] = true;
-			s_isPressed = true;
-			s_keyHeldCode = KeyEvent.VK_D;
 			break;
 		case KeyEvent.VK_A:
 			mInputs[KeyEvent.VK_A] = true;
-			s_isPressed = true;
-			s_keyHeldCode = KeyEvent.VK_A;
+			break;
+		case KeyEvent.VK_SPACE:
+			mInputs[KeyEvent.VK_SPACE] = true;
 			break;
 		}
 
@@ -49,19 +46,18 @@ public class UserInput implements KeyListener {
 		switch (key) {
 		case KeyEvent.VK_W:
 			mInputs[KeyEvent.VK_W] = false;
-			s_isPressed = false;
 			break;
 		case KeyEvent.VK_S:
 			mInputs[KeyEvent.VK_S] = false;
-			s_isPressed = false;
 			break;
 		case KeyEvent.VK_D:
 			mInputs[KeyEvent.VK_D] = false;
-			s_isPressed = false;
 			break;
 		case KeyEvent.VK_A:
 			mInputs[KeyEvent.VK_A] = false;
-			s_isPressed = false;
+			break;
+		case KeyEvent.VK_SPACE:
+			mInputs[KeyEvent.VK_SPACE] = false;
 			break;
 		}
 	}
@@ -76,8 +72,8 @@ public class UserInput implements KeyListener {
 		if(mInputs[KeyEvent.VK_W]){
 			mShip.Move(1);
 		}
-		if(mInputs[KeyEvent.VK_S]){
-			mShip.Move(-1);
+		if(mInputs[KeyEvent.VK_SPACE]){
+			mMissileManager.Spawn();
 		}
 		if(mInputs[KeyEvent.VK_D]){
 //			mShip.Move(1, 0);
@@ -87,22 +83,6 @@ public class UserInput implements KeyListener {
 //			mShip.Move(-1, 0);
 			mShip.Rotate(-1);
 		}
-	}
-
-	public static boolean isPressed() {
-		return s_isPressed;
-	}
-
-	public static void setisPressed(boolean s_isPressed) {
-		UserInput.s_isPressed = s_isPressed;
-	}
-
-	public static int getkeyHeldCode() {
-		return s_keyHeldCode;
-	}
-
-	public static void setkeyHeldCode(int s_keyHeldCode) {
-		UserInput.s_keyHeldCode = s_keyHeldCode;
 	}
 
 }

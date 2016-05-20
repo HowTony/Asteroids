@@ -1,31 +1,22 @@
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.geom.AffineTransform;
 
 public class GameLogic {
 	
-	private Asteroid mAsteroid;
-	private Asteroid mAsteroid1;
-	private Asteroid mAsteroid2;
-	//private Asteroid mAsteroid2;
+
 	private GameWindow mGameWindow;
 	private Ship mShip;
+	private AsteroidManager mGM;
 	private UserInput mUserInput;
+	private MissileManager mMissleManager;
 
 
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
-		mAsteroid = new Asteroid(new Point.Double(-10, 50));
-		mAsteroid1 = new Asteroid(new Point.Double(-10, 100));
-		mAsteroid2 = new Asteroid(new Point.Double(-10, 300));
-		mShip = new Ship(new Point.Double(GameWindow.CANVAS_WIDTH /2, GameWindow.CANVAS_HEIGHT /2));
-		mUserInput = new UserInput(mShip);
+		mGM = new AsteroidManager();
+		mShip = new Ship();
+		mMissleManager = new MissileManager(mShip);
+		mUserInput = new UserInput(mShip, mMissleManager);
 		mGameWindow.RegisterKeyListener(mUserInput);
-	
-		
-		//mAsteroid2 = new Asteroid(340, 250, 8, 8);
-		
 		StartGameLoop();
 	}
 	
@@ -46,27 +37,21 @@ public class GameLogic {
 		while (true) {
 			Update();
 			mGameWindow.Paint();
-			mUserInput.Update();
 
 		}
 	}
 	
 	private void Update() {
-		mAsteroid.Update();
-		mAsteroid1.Update();
-		mAsteroid2.Update();
 		mShip.Update();
-
+		mUserInput.Update();
+		mGM.Update();
 	}
 	
 	public void Draw(Graphics g) {
 		// rendering logic
-
-		mAsteroid.Draw(g);
-		mAsteroid1.Draw(g);
-		mAsteroid2.Draw(g);
-		mShip.Draw(g);
-		//mAsteroid2.Draw(g);
+        mShip.Draw(g);
+		mGM.Draw(g);
+		mMissleManager.Draw(g);
 		
 	}
 	
