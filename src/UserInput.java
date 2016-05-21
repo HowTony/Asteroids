@@ -35,6 +35,7 @@ public class UserInput implements KeyListener {
 			break;
 		case KeyEvent.VK_SPACE:
 			mInputs[KeyEvent.VK_SPACE] = true;
+			mMissileManager.Spawn();
 			break;
 		}
 
@@ -73,7 +74,7 @@ public class UserInput implements KeyListener {
 			mShip.Move(1);
 		}
 		if(mInputs[KeyEvent.VK_SPACE]){
-			mMissileManager.Spawn();
+
 		}
 		if(mInputs[KeyEvent.VK_D]){
 //			mShip.Move(1, 0);

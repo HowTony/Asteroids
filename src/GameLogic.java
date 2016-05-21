@@ -45,6 +45,7 @@ public class GameLogic {
 		mShip.Update();
 		mUserInput.Update();
 		mGM.Update();
+		//mMissleManager.Update();
 	}
 	
 	public void Draw(Graphics g) {

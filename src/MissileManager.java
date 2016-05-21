@@ -16,7 +16,7 @@ public class MissileManager {
     }
 
     public void addMissile() {
-        if(mMissileList.size() < 100) {
+        if (mMissileList.size() < 8000) {
             mMissileList.add(new Missile(mShip));
             System.out.println("num of missiles " + mMissileList.size());
         }
@@ -29,12 +29,17 @@ public class MissileManager {
     public void Draw(Graphics g) {
         for (Missile eachMissile : mMissileList) {
             eachMissile.Draw(g);
-        }
-    }
+            if (eachMissile.getCurrentDistanceChange() > 200) {
+                mMissileList.remove(eachMissile);
+            }
 
-    public void Update() {
-        for (Missile eachMissile : mMissileList) {
-            eachMissile.Update();
         }
     }
 }
+
+//    public void Update() {
+//        for (Missile eachMissile : mMissileList) {
+//            eachMissile.Update();
+//        }
+//    }
+
