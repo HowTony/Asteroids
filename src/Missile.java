@@ -6,7 +6,7 @@ import java.awt.*;
 public class Missile {
 
 
-    private final double SPEED_BUFFER = 0.1;
+    private final double SPEED_BUFFER = 0.0001;
     private Point.Double mPosition;
     private Ship mShip;
     private Point.Double mDirection;
@@ -19,21 +19,16 @@ public class Missile {
         mPosition = mShip.getMissleStart();
         mStartPos = mShip.getMissleStart();
         mDirection = mShip.getmForwardVector();
-
     }
 
     public void Draw(Graphics g){
         g.setColor(Color.cyan);
         g.drawOval((int) mPosition.x, (int) mPosition.y, 5, 5);
-        MissleMove();
     }
-
-
 
     public int getCurrentDistanceChange(){
         return ((int)((mStartPos.x - mPosition.x ) + (mStartPos.y -mPosition.y )));
     }
-
 
     public void MissleMove(){
         double maxWidth = GameWindow.CANVAS_WIDTH;
@@ -58,9 +53,9 @@ public class Missile {
     }
 
 
-//    public void Update(){
-//        MissleMove();
-//    }
+    public void Update(){
+        MissleMove();
+    }
 
 
 }

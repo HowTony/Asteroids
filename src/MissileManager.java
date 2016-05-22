@@ -1,24 +1,26 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 /**
  * Created by Tony Howarth on 5/19/2016.
  */
 public class MissileManager {
 
-
     private Ship mShip;
-    private ArrayList<Missile> mMissileList;
+    private List<Missile> mMissileList = Collections.synchronizedList(new ArrayList<>());
 
     public MissileManager(Ship ship) {
         mShip = ship;
-        mMissileList = new ArrayList<Missile>();
     }
 
     public void addMissile() {
-        if (mMissileList.size() < 8000) {
-            mMissileList.add(new Missile(mShip));
-            System.out.println("num of missiles " + mMissileList.size());
+        synchronized (mMissileList) {
+            if (mMissileList.size() < 8000) {
+                mMissileList.add(new Missile(mShip));
+                System.out.println("num of missiles " + mMissileList.size());
+            }
         }
     }
 
@@ -27,19 +29,19 @@ public class MissileManager {
     }
 
     public void Draw(Graphics g) {
-        for (Missile eachMissile : mMissileList) {
-            eachMissile.Draw(g);
-            if (eachMissile.getCurrentDistanceChange() > 200) {
-                mMissileList.remove(eachMissile);
+        synchronized (mMissileList) {
+            for (Missile eachMissile : mMissileList) {
+                eachMissile.Draw(g);
             }
+        }
+    }
 
+    public void Update() {
+        for (Missile eachMissile : mMissileList) {
+            eachMissile.Update();
         }
     }
 }
 
-//    public void Update() {
-//        for (Missile eachMissile : mMissileList) {
-//            eachMissile.Update();
-//        }
-//    }
+
 

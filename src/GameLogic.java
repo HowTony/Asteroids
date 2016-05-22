@@ -20,7 +20,6 @@ public class GameLogic {
 		StartGameLoop();
 	}
 	
-
 	private void StartGameLoop() {
 		mGameWindow.SetGameLogic(this);
 		
@@ -37,7 +36,6 @@ public class GameLogic {
 		while (true) {
 			Update();
 			mGameWindow.Paint();
-
 		}
 	}
 	
@@ -45,7 +43,7 @@ public class GameLogic {
 		mShip.Update();
 		mUserInput.Update();
 		mGM.Update();
-		//mMissleManager.Update();
+		mMissleManager.Update();
 	}
 	
 	public void Draw(Graphics g) {
@@ -55,8 +53,5 @@ public class GameLogic {
 		mMissleManager.Draw(g);
 		
 	}
-	
-	
-	
-	
+
 }

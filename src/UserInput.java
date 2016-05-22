@@ -8,13 +8,13 @@ public class UserInput implements KeyListener {
 	private MissileManager mMissileManager;
 	private boolean mInputs[];
 	private int i = 0;
+    private boolean mTriggerLocked = false;
 
 
 	public UserInput(Ship ship, MissileManager mm) {
 		mShip = ship;
 		mMissileManager = mm;
 		mInputs = new boolean[128];
-
 	}
 
 	@Override
@@ -35,10 +35,8 @@ public class UserInput implements KeyListener {
 			break;
 		case KeyEvent.VK_SPACE:
 			mInputs[KeyEvent.VK_SPACE] = true;
-			mMissileManager.Spawn();
 			break;
 		}
-
 	}
 
 	@Override
@@ -59,6 +57,7 @@ public class UserInput implements KeyListener {
 			break;
 		case KeyEvent.VK_SPACE:
 			mInputs[KeyEvent.VK_SPACE] = false;
+            mTriggerLocked = false;
 			break;
 		}
 	}
@@ -66,22 +65,20 @@ public class UserInput implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void Update() {
 		if(mInputs[KeyEvent.VK_W]){
 			mShip.Move(1);
 		}
-		if(mInputs[KeyEvent.VK_SPACE]){
-
+		if(mInputs[KeyEvent.VK_SPACE] && !mTriggerLocked){
+            mMissileManager.Spawn();
+            mTriggerLocked = true;
 		}
 		if(mInputs[KeyEvent.VK_D]){
-//			mShip.Move(1, 0);
 			mShip.Rotate(1);
 		}
 		if(mInputs[KeyEvent.VK_A]){
-//			mShip.Move(-1, 0);
 			mShip.Rotate(-1);
 		}
 	}

@@ -14,11 +14,6 @@ public class Ship extends Polygon{
 	private int mPlayerX[];
 	private int mPlayerY[];
 
-
-    private Missile mMissile;
-
-    private boolean mIsShooting = false;
-
 	private Point.Double mPosition;
 	private Point.Double mOrigin;
 	private Point.Double mForwardVector;
@@ -57,6 +52,13 @@ public class Ship extends Polygon{
     }
 
 	public void Draw(Graphics g) {
+		// do all the drawing...
+		g.setColor(Color.BLUE);
+		g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+		g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+	}
+
+	public void Update() {
 		mTransform.rotate(mRotationDelta, 0, 0);
 		mTransform.transform(mForwardVector, mForwardVector);
 
@@ -76,30 +78,9 @@ public class Ship extends Polygon{
 			mRenderArrayY[i] = (int) currentPoint.y + (int) mPosition.y;
 		}
 
-		// do all the drawing...
-		g.setColor(Color.BLUE);
-		g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-		g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-
-
-
-		// debug draw forward vector
-		//g.drawLine((int) mOrigin.x, (int) mOrigin.y, (int) mOrigin.x + (int) (mForwardVector.x * 10D),(int) mOrigin.y + (int) (mForwardVector.y * 10D));
-
-		// reset rotation in preparation for next draw
+        // reset rotation in preparation for next draw
 		mTransform.setToIdentity();
 		mRotationDelta = 0D;
-
-        if(mIsShooting){
-            mMissile = new Missile(this);
-            mMissile.Draw(g);
-        }
-
-
-	}
-
-	public void Update() {
-
 	}
 
     public Point.Double getmForwardVector() {
@@ -134,13 +115,5 @@ public class Ship extends Polygon{
 
 		mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
 		mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
-	}
-
-	public void Shoot() {
-        if(!mIsShooting){
-            mIsShooting = true;
-        }else{
-            mIsShooting = false;
-        }
 	}
 }
