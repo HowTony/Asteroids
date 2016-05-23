@@ -6,7 +6,7 @@ import java.awt.*;
 public class Missile {
 
 
-    private final double SPEED_BUFFER = 0.0001;
+    private final double SPEED_BUFFER = 200D;
     private Point.Double mPosition;
     private Ship mShip;
     private Point.Double mDirection;
@@ -30,7 +30,7 @@ public class Missile {
         return ((int)((mStartPos.x - mPosition.x ) + (mStartPos.y -mPosition.y )));
     }
 
-    public void MissleMove(){
+    public void MissleMove(double deltaTime){
         double maxWidth = GameWindow.CANVAS_WIDTH;
         double maxHeight = GameWindow.CANVAS_HEIGHT;
 
@@ -48,13 +48,13 @@ public class Missile {
             mPosition.y = (int) maxHeight;
         }
 
-        mPosition.x += mDirection.x * SPEED_BUFFER;
-        mPosition.y += mDirection.y * SPEED_BUFFER;
+        mPosition.x += mDirection.x * SPEED_BUFFER * deltaTime;
+        mPosition.y += mDirection.y * SPEED_BUFFER * deltaTime;
     }
 
 
-    public void Update(){
-        MissleMove();
+    public void Update(double deltaTime){
+        MissleMove(deltaTime);
     }
 
 

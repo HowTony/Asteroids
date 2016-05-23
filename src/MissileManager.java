@@ -36,9 +36,9 @@ public class MissileManager {
         }
     }
 
-    public void Update() {
+    public void Update(double deltaTime) {
         for (Missile eachMissile : mMissileList) {
-            eachMissile.Update();
+            eachMissile.Update(deltaTime);
         }
     }
 }

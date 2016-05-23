@@ -55,7 +55,7 @@ public class GameLogic {
 		mShip.Update(deltaTime);
 		mUserInput.Update(deltaTime);
 		mGM.Update();
-		mMissleManager.Update();
+		mMissleManager.Update(deltaTime);
 	}
 	
 	public void Draw(Graphics g) {
