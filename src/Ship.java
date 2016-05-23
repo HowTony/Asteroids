@@ -6,8 +6,8 @@ import java.awt.geom.AffineTransform;
 
 public class Ship extends Polygon{
 
-	private final double ROTATION_BUFFER = 0.000006;
-	private final double SPEED_BUFFER = 0.00005;
+	private final double ROTATION_BUFFER = 10D;
+	private final double SPEED_BUFFER = 100D;
 	private final double SHIP_SCALE = 5D;
 
 	// SHIP
@@ -58,7 +58,7 @@ public class Ship extends Polygon{
 		g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 	}
 
-	public void Update() {
+	public void Update(double deltaTime) {
 		mTransform.rotate(mRotationDelta, 0, 0);
 		mTransform.transform(mForwardVector, mForwardVector);
 

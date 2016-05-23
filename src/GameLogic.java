@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 
 public class GameLogic {
 	
@@ -8,7 +9,7 @@ public class GameLogic {
 	private AsteroidManager mGM;
 	private UserInput mUserInput;
 	private MissileManager mMissleManager;
-
+    private double mDeltaTime = 0D;
 
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
@@ -33,15 +34,26 @@ public class GameLogic {
 	}
 	
 	private void GameLoop() {
+        long startTime;
+        long endTime;
+        long deltaTime = 0;
+
 		while (true) {
-			Update();
+            startTime = System.nanoTime();
+
+            double deltaTimeSeconds = (double) deltaTime;
+
+			Update(deltaTimeSeconds / 1000000000D);
 			mGameWindow.Paint();
+
+            endTime = System.nanoTime();
+            deltaTime = endTime - startTime;
 		}
 	}
 	
-	private void Update() {
-		mShip.Update();
-		mUserInput.Update();
+	private void Update(double deltaTime) {
+		mShip.Update(deltaTime);
+		mUserInput.Update(deltaTime);
 		mGM.Update();
 		mMissleManager.Update();
 	}
