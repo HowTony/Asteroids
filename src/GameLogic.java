@@ -10,7 +10,6 @@ public class GameLogic {
     private Ship mShip;
     private MissileManager mMissleManager;
 
-
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
 		mPhysics = new PhysicsEngine();
@@ -74,5 +73,4 @@ public class GameLogic {
         mShip.Draw(g);
         mAsteroidManager.Draw(g);
 	}
-
 }

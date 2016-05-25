@@ -6,7 +6,6 @@ import java.util.ArrayList;
  */
 public class PhysicsEngine {
 
-
     ArrayList<Collidable> mGameObjectList;
 
     public PhysicsEngine(){
@@ -24,4 +23,7 @@ public class PhysicsEngine {
 
     }
 
+    public boolean Collided(Collidable firstObject, Collidable secondObject){
+        return true;
+    }
 }

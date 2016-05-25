@@ -3,7 +3,5 @@
  */
 public interface Collidable {
 
-
-    public void Collide();
-
+    void Collide();
 }
