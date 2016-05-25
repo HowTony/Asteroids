@@ -1,29 +1,22 @@
 import java.awt.Graphics;
-import java.text.DecimalFormat;
 
 public class GameLogic {
-	
 
 	private GameWindow mGameWindow;
-	private Ship mShip;
-	private AsteroidManager mGM;
 	private UserInput mUserInput;
-	private MissileManager mMissleManager;
+	private PhysicsEngine mPhysics;
     private double mDeltaTime = 0D;
 
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
-		mGM = new AsteroidManager();
-		mShip = new Ship();
-		mMissleManager = new MissileManager(mShip);
-		mUserInput = new UserInput(mShip, mMissleManager);
+		mPhysics = new PhysicsEngine();
+		mUserInput = new UserInput(mPhysics.getShip(), mPhysics.getMissileManager());
 		mGameWindow.RegisterKeyListener(mUserInput);
 		StartGameLoop();
 	}
 	
 	private void StartGameLoop() {
 		mGameWindow.SetGameLogic(this);
-		
 		Thread loop = new Thread() {
 			public void run() {
 				GameLoop();
@@ -51,19 +44,13 @@ public class GameLogic {
 		}
 	}
 	
-	private void Update(double deltaTime) {
-		mShip.Update(deltaTime);
+	public void Update(double deltaTime) {
 		mUserInput.Update(deltaTime);
-		mGM.Update();
-		mMissleManager.Update();
+		mPhysics.Update(deltaTime);
 	}
 	
 	public void Draw(Graphics g) {
-		// rendering logic
-        mShip.Draw(g);
-		mGM.Draw(g);
-		mMissleManager.Draw(g);
-		
+		mPhysics.Draw(g);
 	}
 
 }

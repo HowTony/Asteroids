@@ -1,43 +1,40 @@
 import java.awt.*;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Collections;
 /**
  * Created by Tony Howarth on 5/18/2016.
  */
 public class AsteroidManager {
-
-    private ArrayList<Asteroid> mAsteroidList;
+    private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<>());
 
     public AsteroidManager() {
-        mAsteroidList = new ArrayList<>();
         addAsteroid();
     }
 
     public void addAsteroid() {
-        while (mAsteroidList.size() < 0) {
-            mAsteroidList.add(new Asteroid((new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
+        synchronized (mAsteroidList) {
+            while (mAsteroidList.size() < 2) {
+                mAsteroidList.add(new Asteroid((new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
+            }
         }
     }
 
     public void Draw(Graphics g) {
-        for (Asteroid eachAsteroid : mAsteroidList) {
-            eachAsteroid.Draw(g);
+        synchronized (mAsteroidList) {
+            for (Asteroid eachAsteroid : mAsteroidList) {
+                eachAsteroid.Draw(g);
+            }
         }
     }
 
-    public void Update() {
-        for (Asteroid eachAsteroid : mAsteroidList) {
-            eachAsteroid.Update();
+    public void Update(double deltaTime) {
+        synchronized (mAsteroidList) {
+            for (Asteroid eachAsteroid : mAsteroidList) {
+                eachAsteroid.Update(deltaTime);
+            }
         }
-        // Collision
-
-//        for (Asteroid eachAsteroid:mAsteroidList) {
-//            Rectangle eachRock = eachAsteroid.getBounds();
-//            for (Asteroid otherAsteroid: mAsteroidList) {
-//                Rectangle otherRock = otherAsteroid.getBounds();
-//                if(eachAsteroid != otherAsteroid && eachRock.intersects(otherRock)){
-//                    eachAsteroid.ReverseDirection();
-//
-//                }
     }
+
+
 }

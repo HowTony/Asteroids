@@ -1,13 +1,10 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-public class Ship extends Polygon{
+public class Ship extends Rectangle implements Collidable{
 
-	private final double ROTATION_BUFFER = 10D;
-	private final double SPEED_BUFFER = 100D;
+	private final double ROTATION_BUFFER = 6D;
+	private final double SPEED_BUFFER = 150D;
 	private final double SHIP_SCALE = 5D;
 
 	// SHIP
@@ -55,7 +52,7 @@ public class Ship extends Polygon{
 		// do all the drawing...
 		g.setColor(Color.BLUE);
 		g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-		g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+		//g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 	}
 
 	public void Update(double deltaTime) {
@@ -116,4 +113,15 @@ public class Ship extends Polygon{
 		mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
 		mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
 	}
+
+	@Override
+	public void Collide() {
+
+	}
+
+    public Ship getShip(){
+        return this;
+    }
+
+
 }

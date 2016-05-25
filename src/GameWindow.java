@@ -1,7 +1,4 @@
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -10,12 +7,14 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class GameWindow extends JFrame{
-	public static final int CANVAS_WIDTH  = 640;
-	public static final int CANVAS_HEIGHT = 480;	
+
+	public static GraphicsDevice mDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	public static final int CANVAS_WIDTH  = mDevice.getDisplayMode().getWidth() / 2;
+	public static final int CANVAS_HEIGHT = mDevice.getDisplayMode().getHeight() / 2;
    
 	private DrawCanvas mCanvas;
 	private GameLogic mGameLogic;
-	private Ship mShip;
+
 	
 	public GameWindow() {
 		mCanvas = new DrawCanvas();
