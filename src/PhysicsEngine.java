@@ -25,7 +25,6 @@ public class PhysicsEngine {
         mMissleManager.Draw(g);
     }
 
-
     public void Update(double deltaTime) {
         mShip.Update(deltaTime);
         mAsteroidManager.Update(deltaTime);
