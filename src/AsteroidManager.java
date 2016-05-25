@@ -36,5 +36,13 @@ public class AsteroidManager {
         }
     }
 
+    public ArrayList<Asteroid> getAsteroids(){
+        ArrayList<Asteroid> list = new ArrayList<>();
+        for (Asteroid eachAsteroid:mAsteroidList) {
+            list.add(eachAsteroid);
+        }
+        return list;
+    }
+
 
 }

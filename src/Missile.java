@@ -3,7 +3,7 @@ import java.awt.*;
 /**
  * Created by Tony Howarth on 5/19/2016.
  */
-public class Missile extends Polygon implements Collidable{
+public class Missile extends Polygon implements Collidable {
 
 
     private final double SPEED_BUFFER = 200D;
@@ -13,23 +13,23 @@ public class Missile extends Polygon implements Collidable{
     private Point.Double mStartPos;
 
 
-    public Missile(Ship ship){
+    public Missile(Ship ship) {
         mShip = ship;
         mPosition = mShip.getMissleStart();
         mStartPos = mShip.getMissleStart();
         mDirection = mShip.getmForwardVector();
     }
 
-    public void Draw(Graphics g){
+    public void Draw(Graphics g) {
         g.setColor(Color.cyan);
         g.drawOval((int) mPosition.x, (int) mPosition.y, 5, 5);
     }
 
-    public int getCurrentDistanceChange(){
-        return ((int)((mStartPos.x - mPosition.x ) + (mStartPos.y -mPosition.y )));
+    public int getCurrentDistanceChange() {
+        return ((int) ((mStartPos.x - mPosition.x) + (mStartPos.y - mPosition.y)));
     }
 
-    public void MissleMove(double deltaTime){
+    public void MissleMove(double deltaTime) {
         double maxWidth = GameWindow.CANVAS_WIDTH;
         double maxHeight = GameWindow.CANVAS_HEIGHT;
         if (mPosition.x > maxWidth) {
@@ -48,7 +48,7 @@ public class Missile extends Polygon implements Collidable{
         mPosition.y += mDirection.y * SPEED_BUFFER * deltaTime;
     }
 
-    public void Update(double deltaTime){
+    public void Update(double deltaTime) {
         MissleMove(deltaTime);
     }
 

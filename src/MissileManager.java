@@ -37,11 +37,27 @@ public class MissileManager {
     }
 
     public void Update(double deltaTime) {
-        for (Missile eachMissile : mMissileList) {
-            eachMissile.Update(deltaTime);
+        synchronized (mMissileList) {
+            for (Missile eachMissile : mMissileList) {
+                eachMissile.Update(deltaTime);
+            }
         }
+
+
     }
+
+    public ArrayList<Missile> getMissiles(){
+        ArrayList<Missile> list = new ArrayList<>();
+        for (Missile eachMissile:mMissileList) {
+            list.add(eachMissile);
+        }
+        return list;
+    }
+
+
 }
+
+
 
 
 

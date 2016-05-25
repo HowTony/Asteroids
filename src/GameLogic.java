@@ -1,17 +1,26 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class GameLogic {
 
 	private GameWindow mGameWindow;
 	private UserInput mUserInput;
 	private PhysicsEngine mPhysics;
-    private double mDeltaTime = 0D;
+    private AsteroidManager mAsteroidManager;
+    private Ship mShip;
+    private MissileManager mMissleManager;
+
 
 	public GameLogic(GameWindow window) {
 		mGameWindow = window;
 		mPhysics = new PhysicsEngine();
-		mUserInput = new UserInput(mPhysics.getShip(), mPhysics.getMissileManager());
+        mShip = new Ship();
+        mAsteroidManager = new AsteroidManager();
+        mMissleManager = new MissileManager(mShip);
+		mUserInput = new UserInput(mShip, mMissleManager);
 		mGameWindow.RegisterKeyListener(mUserInput);
+
+
 		StartGameLoop();
 	}
 	
@@ -33,7 +42,6 @@ public class GameLogic {
 
 		while (true) {
             startTime = System.nanoTime();
-
             double deltaTimeSeconds = (double) deltaTime;
 
 			Update(deltaTimeSeconds / 1000000000D);
@@ -47,10 +55,24 @@ public class GameLogic {
 	public void Update(double deltaTime) {
 		mUserInput.Update(deltaTime);
 		mPhysics.Update(deltaTime);
+        mShip.Update(deltaTime);
+        mAsteroidManager.Update(deltaTime);
+        mMissleManager.Update(deltaTime);
+        mPhysics.addCollidale(mShip);
+        ArrayList<Asteroid> mAsteroidList = mAsteroidManager.getAsteroids();
+        for(Asteroid eachAsteroid: mAsteroidList){
+            mPhysics.addCollidale(eachAsteroid);
+        }
+        ArrayList<Missile> mMissileList = mMissleManager.getMissiles();
+        for(Missile eachMissile: mMissileList){
+            mPhysics.addCollidale(eachMissile);
+        }
 	}
 	
 	public void Draw(Graphics g) {
-		mPhysics.Draw(g);
+        mMissleManager.Draw(g);
+        mShip.Draw(g);
+        mAsteroidManager.Draw(g);
 	}
 
 }
