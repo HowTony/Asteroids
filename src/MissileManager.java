@@ -8,6 +8,7 @@ import java.util.Collections;
  */
 public class MissileManager {
 
+    private int mID = 1;
     private Ship mShip;
     private List<Missile> mMissileList = Collections.synchronizedList(new ArrayList<>());
 
@@ -18,8 +19,9 @@ public class MissileManager {
     public void AddMissile() {
         synchronized (mMissileList) {
             if (mMissileList.size() < 8000) {
-                mMissileList.add(new Missile(mShip));
-                System.out.println("num of missiles " + mMissileList.size());
+                mMissileList.add(new Missile("Missile " + mID, mShip));
+//              System.out.println("num of missiles " + mMissileList.size());
+                mID++;
             }
         }
     }
@@ -56,7 +58,7 @@ public class MissileManager {
     public void ManageMissileList(){
         List<Missile> list = new ArrayList<>();
         for(Missile eachMissile: mMissileList){
-            if(eachMissile.OutOfBounds()){
+            if(!eachMissile.IsAlive()){
                 list.add(eachMissile);
             }
         }

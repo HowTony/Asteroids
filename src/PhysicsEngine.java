@@ -1,6 +1,6 @@
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 /**
  * Created by Tony Howarth on 5/24/2016.
@@ -9,19 +9,19 @@ public class PhysicsEngine {
 
     ArrayList<Collidable> mGameObjectList;
 
-    public PhysicsEngine(){
+    public PhysicsEngine() {
         mGameObjectList = new ArrayList<>();
     }
 
-    public void AddCollidable(Collidable c){
-        if(!mGameObjectList.contains(c)){
+    public void AddCollidable(Collidable c) {
+        if (!mGameObjectList.contains(c)) {
             mGameObjectList.add(c);
             System.out.println("Collidable " + mGameObjectList.size());
         }
     }
 
-    public void AddCollidable(ArrayList<Collidable> list){
-        for(Collidable eachCollidable: list) {
+    public void AddCollidable(ArrayList<Collidable> list) {
+        for (Collidable eachCollidable : list) {
             if (!mGameObjectList.contains(eachCollidable)) {
                 mGameObjectList.add(eachCollidable);
                 System.out.println("Collidable " + mGameObjectList.size());
@@ -29,11 +29,35 @@ public class PhysicsEngine {
         }
     }
 
-    public void Update(double deltaTime) {
-
+    public void ManageObjectList() {
+        List<Collidable> list = new ArrayList<>();
+        for (Collidable eachCollidable : mGameObjectList) {
+            if (!eachCollidable.IsAlive()) {
+                list.add(eachCollidable);
+            }
+        }
+        for (Collidable eachCollidable : list) {
+            mGameObjectList.remove(eachCollidable);
+        }
     }
 
-    public boolean Collided(Collidable firstObject, Collidable secondObject){
-        return true;
+    public void Update(double deltaTime) {
+        CheckCollision();
+        ManageObjectList();
+    }
+
+    public void CheckCollision() {
+        for (int a = 0; a < mGameObjectList.size(); a++) {
+            for (int b = 0; b < mGameObjectList.size(); b++) {
+                Collidable firstTestCase = mGameObjectList.get(a);
+                Collidable secondTestCase = mGameObjectList.get(b);
+                if (firstTestCase != secondTestCase) {
+                    if (firstTestCase.GetBounds().intersects(secondTestCase.GetBounds())) {
+                        firstTestCase.Collide(secondTestCase.GetName() + "");
+                        secondTestCase.Collide(firstTestCase.GetName() + "");
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Asteroid implements Collidable {
+public class Asteroid extends Polygon implements Collidable {
 
     private final double SPEED_BUFFER = 50D;
     private final double ASTEROID_SCALE = 15D;
@@ -8,14 +8,17 @@ public class Asteroid implements Collidable {
     private Point.Double mLargeAsteroidPointsArray[];
     private int mRenderArrayX[];
     private int mRenderArrayY[];
-
+    private String mName;
+    private boolean mIsAlive;
     private double mDeltaX;
     private double mDeltaY;
 
-    public Asteroid(Point.Double startPoint) {
+    public Asteroid(String name, Point.Double startPoint) {
         mPosition = startPoint;
+        mName = name;
         mDeltaX = (Math.random() * 2) - 1;
         mDeltaY = (Math.random() * 2) - 1;
+        mIsAlive = true;
         mLargeAsteroidPointsArray = new Point.Double[]{
                 new Point.Double(-2, -1),
                 new Point.Double(0, -2),
@@ -36,17 +39,16 @@ public class Asteroid implements Collidable {
     }
 
     public void Draw(Graphics g) {
-
         g.setColor(Color.RED);
         g.drawPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
         //g.fillPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
-        g.drawRect((int) mPosition.x - 30, (int) mPosition.y - 30, 55, 55);
+        //Rectangle test = this.GetBounds();
+        //g.drawRect((int)test.getX(),(int)test.getY(),test.width,test.height);
     }
 
-
-    public void changeDeltas(Asteroid otherAsteroid) {
-        this.mDeltaX = otherAsteroid.getDeltaX();
-        this.mDeltaY = otherAsteroid.getDeltaY();
+    @Override
+    public String GetName(){
+        return this.mName;
     }
 
     public void ReverseDirection() {
@@ -75,8 +77,6 @@ public class Asteroid implements Collidable {
     }
 
     public void AsteroidMove(double deltaTime) {
-
-
         double maxWidth = GameWindow.CANVAS_WIDTH;
         double maxHeight = GameWindow.CANVAS_HEIGHT;
         if (mPosition.x > maxWidth) {
@@ -105,12 +105,29 @@ public class Asteroid implements Collidable {
     }
 
     @Override
-    public void Collide() {
-
+    public void Collide(String name) {
+        if(name.contains("Missile")) {
+            if (mIsAlive) {
+                SetAlive(false);
+            }
+            System.out.println( GetName() +  " Collided with " + name + "!");
+        }
+        else if(name.contains("Asteroid")) {
+            ReverseDirection();
+            System.out.println( GetName() +  " Collided with " + name + "!");
+        }
     }
 
-    public Rectangle GetBounds() {
-        return new Rectangle((int) getPosition().getX(), (int) getPosition().getY(), 5, 5);
+    @Override
+    public Rectangle GetBounds(){
+        return new Polygon(mRenderArrayX, mRenderArrayY, mRenderArrayX.length).getBounds();
     }
 
+    public boolean IsAlive(){
+        return this.mIsAlive;
+    }
+
+    public void SetAlive(boolean b){
+        this.mIsAlive = b;
+    }
 }

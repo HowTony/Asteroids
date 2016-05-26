@@ -7,6 +7,7 @@ import java.util.Collections;
  */
 public class AsteroidManager {
     private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<>());
+    private int mID = 1;
 
     public AsteroidManager() {
         AddAsteroid();
@@ -14,8 +15,9 @@ public class AsteroidManager {
 
     public void AddAsteroid() {
         synchronized (mAsteroidList) {
-            while (mAsteroidList.size() < 2) {
-                mAsteroidList.add(new Asteroid((new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
+            while (mAsteroidList.size() < 10) {
+                mAsteroidList.add(new Asteroid("Asteroid " + mID,(new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
+                mID++;
             }
         }
     }
@@ -34,6 +36,7 @@ public class AsteroidManager {
                 eachAsteroid.Update(deltaTime);
             }
         }
+        ManageAsteroidList();
     }
 
     public ArrayList<Collidable> GetAsteroids(){
@@ -42,6 +45,18 @@ public class AsteroidManager {
             list.add(eachAsteroid);
         }
         return list;
+    }
+
+    public void ManageAsteroidList(){
+        List<Asteroid> list = new ArrayList<>();
+        for(Asteroid eachAsteroid: mAsteroidList){
+            if(!eachAsteroid.IsAlive()){
+                list.add(eachAsteroid);
+            }
+        }
+        for (Asteroid eachAsteroid: list) {
+            mAsteroidList.remove(eachAsteroid);
+        }
     }
 
 

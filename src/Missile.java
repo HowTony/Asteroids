@@ -3,26 +3,30 @@ import java.awt.*;
 /**
  * Created by Tony Howarth on 5/19/2016.
  */
-public class Missile extends Polygon implements Collidable {
-
-
+public class Missile implements Collidable {
+    
     private final double SPEED_BUFFER = 250D;
     private Point.Double mPosition;
     private Ship mShip;
     private Point.Double mDirection;
     private Point.Double mStartPos;
+    private String mName;
+    private boolean mIsAlive;
 
-
-    public Missile(Ship ship) {
+    public Missile(String name, Ship ship) {
+        mName = name;
         mShip = ship;
         mPosition = mShip.getMissleStart();
         mStartPos = mShip.getMissleStart();
         mDirection = mShip.getmForwardVector();
+        mIsAlive = true;
     }
 
     public void Draw(Graphics g) {
         g.setColor(Color.cyan);
-        g.drawOval((int) mPosition.x, (int) mPosition.y, 5, 5);
+        g.drawOval((int) mPosition.x, (int) mPosition.y, 4, 4);
+//        Rectangle test = this.GetBounds();
+//        g.drawRect((int)test.getX(), (int)test.getY(), test.width, test.height);
     }
 
     public int GetCurrentDistanceChange() {
@@ -40,13 +44,37 @@ public class Missile extends Polygon implements Collidable {
     }
 
     @Override
-    public void Collide() {
-
+    public void Collide(String name) {
+        if (name.contains("Asteroid")) {
+            if (mIsAlive) {
+                SetAlive(false);
+                System.out.println( GetName() +  " Collided with " + name + "!");
+            }
+        }
     }
 
-    public boolean OutOfBounds(){
-        if(this.mPosition.getX() > GameWindow.CANVAS_WIDTH || this.mPosition.getX() < 0 ||
-                this.mPosition.getY() > GameWindow.CANVAS_HEIGHT || this.mPosition.getY() < 0){
+    @Override
+    public String GetName() {
+        return this.mName;
+    }
+
+    @Override
+    public Rectangle GetBounds() {
+        return new Rectangle((int) mPosition.getX(), (int) mPosition.getY(), 4, 4);
+    }
+
+    public boolean IsAlive() {
+        return this.mIsAlive;
+    }
+
+    public void SetAlive(boolean b) {
+        this.mIsAlive = b;
+    }
+
+    public boolean OutOfBounds() {
+        if (this.mPosition.getX() > GameWindow.CANVAS_WIDTH || this.mPosition.getX() < 0 ||
+                this.mPosition.getY() > GameWindow.CANVAS_HEIGHT || this.mPosition.getY() < 0) {
+            SetAlive(false);
             return true;
         }
         return false;
