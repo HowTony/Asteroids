@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 
 
@@ -13,22 +13,22 @@ public class PhysicsEngine {
         mGameObjectList = new ArrayList<>();
     }
 
-    public void addCollidable(Collidable c){
+    public void AddCollidable(Collidable c){
         if(!mGameObjectList.contains(c)){
             mGameObjectList.add(c);
-            System.out.println("Collidable added");
+            System.out.println("Collidable " + mGameObjectList.size());
         }
     }
 
-    public void addCollidable(ArrayList<Collidable> list){
+    public void AddCollidable(ArrayList<Collidable> list){
         for(Collidable eachCollidable: list) {
             if (!mGameObjectList.contains(eachCollidable)) {
                 mGameObjectList.add(eachCollidable);
-                System.out.println("Collidable added");
+                System.out.println("Collidable " + mGameObjectList.size());
             }
         }
     }
-    
+
     public void Update(double deltaTime) {
 
     }

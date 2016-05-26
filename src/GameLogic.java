@@ -1,5 +1,4 @@
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 public class GameLogic {
 
@@ -18,7 +17,6 @@ public class GameLogic {
         mMissleManager = new MissileManager(mShip);
 		mUserInput = new UserInput(mShip, mMissleManager);
 		mGameWindow.RegisterKeyListener(mUserInput);
-
 
 		StartGameLoop();
 	}
@@ -57,14 +55,14 @@ public class GameLogic {
         mShip.Update(deltaTime);
         mAsteroidManager.Update(deltaTime);
         mMissleManager.Update(deltaTime);
-        mPhysics.addCollidable(mShip);
-        mPhysics.addCollidable(mAsteroidManager.getAsteroids());
-        mPhysics.addCollidable(mMissleManager.getMissiles());
+        mPhysics.AddCollidable(mShip);
+        mPhysics.AddCollidable(mAsteroidManager.GetAsteroids());
+        mPhysics.AddCollidable(mMissleManager.GetMissiles());
     }
 	
 	public void Draw(Graphics g) {
-        mMissleManager.Draw(g);
         mShip.Draw(g);
+        mMissleManager.Draw(g);
         mAsteroidManager.Draw(g);
 	}
 }

@@ -6,7 +6,7 @@ import java.awt.*;
 public class Missile extends Polygon implements Collidable {
 
 
-    private final double SPEED_BUFFER = 200D;
+    private final double SPEED_BUFFER = 250D;
     private Point.Double mPosition;
     private Ship mShip;
     private Point.Double mDirection;
@@ -25,25 +25,12 @@ public class Missile extends Polygon implements Collidable {
         g.drawOval((int) mPosition.x, (int) mPosition.y, 5, 5);
     }
 
-    public int getCurrentDistanceChange() {
+    public int GetCurrentDistanceChange() {
         return ((int) ((mStartPos.x - mPosition.x) + (mStartPos.y - mPosition.y)));
     }
 
     public void MissleMove(double deltaTime) {
-        double maxWidth = GameWindow.CANVAS_WIDTH;
-        double maxHeight = GameWindow.CANVAS_HEIGHT;
-        if (mPosition.x > maxWidth) {
-            mPosition.x = 0;
-        }
-        if (mPosition.x < 0) {
-            mPosition.x = (int) maxWidth;
-        }
-        if (mPosition.y > maxHeight) {
-            mPosition.y = 0;
-        }
-        if (mPosition.y < 0) {
-            mPosition.y = (int) maxHeight;
-        }
+
         mPosition.x += mDirection.x * SPEED_BUFFER * deltaTime;
         mPosition.y += mDirection.y * SPEED_BUFFER * deltaTime;
     }
@@ -56,4 +43,13 @@ public class Missile extends Polygon implements Collidable {
     public void Collide() {
 
     }
+
+    public boolean OutOfBounds(){
+        if(this.mPosition.getX() > GameWindow.CANVAS_WIDTH || this.mPosition.getX() < 0 ||
+                this.mPosition.getY() > GameWindow.CANVAS_HEIGHT || this.mPosition.getY() < 0){
+            return true;
+        }
+        return false;
+    }
+
 }

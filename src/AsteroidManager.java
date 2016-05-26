@@ -9,10 +9,10 @@ public class AsteroidManager {
     private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<>());
 
     public AsteroidManager() {
-        addAsteroid();
+        AddAsteroid();
     }
 
-    public void addAsteroid() {
+    public void AddAsteroid() {
         synchronized (mAsteroidList) {
             while (mAsteroidList.size() < 2) {
                 mAsteroidList.add(new Asteroid((new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
@@ -36,7 +36,7 @@ public class AsteroidManager {
         }
     }
 
-    public ArrayList<Collidable> getAsteroids(){
+    public ArrayList<Collidable> GetAsteroids(){
         ArrayList<Collidable> list = new ArrayList<>();
         for (Asteroid eachAsteroid:mAsteroidList) {
             list.add(eachAsteroid);

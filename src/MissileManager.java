@@ -15,7 +15,7 @@ public class MissileManager {
         mShip = ship;
     }
 
-    public void addMissile() {
+    public void AddMissile() {
         synchronized (mMissileList) {
             if (mMissileList.size() < 8000) {
                 mMissileList.add(new Missile(mShip));
@@ -25,7 +25,7 @@ public class MissileManager {
     }
 
     public void Spawn() {
-        addMissile();
+        AddMissile();
     }
 
     public void Draw(Graphics g) {
@@ -42,11 +42,10 @@ public class MissileManager {
                 eachMissile.Update(deltaTime);
             }
         }
-
-
+        ManageMissileList();
     }
 
-    public ArrayList<Collidable> getMissiles(){
+    public ArrayList<Collidable> GetMissiles(){
         ArrayList<Collidable> list = new ArrayList<>();
         for (Missile eachMissile:mMissileList) {
             list.add(eachMissile);
@@ -55,6 +54,17 @@ public class MissileManager {
     }
 
 
+    public void ManageMissileList(){
+        List<Missile> list = new ArrayList<>();
+        for(Missile eachMissile: mMissileList){
+            if(eachMissile.OutOfBounds()){
+                list.add(eachMissile);
+            }
+        }
+        for (Missile eachMissile: list) {
+            mMissileList.remove(eachMissile);
+        }
+    }
 }
 
 

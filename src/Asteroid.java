@@ -40,7 +40,7 @@ public class Asteroid implements Collidable  {
         g.setColor(Color.RED);
         g.drawPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
         //g.fillPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
-        //g.drawRect((int) mPosition.x - 30, (int) mPosition.y - 30, 55, 55);
+        g.drawRect((int) mPosition.x - 30, (int) mPosition.y - 30, 55, 55);
     }
 
 
@@ -74,9 +74,6 @@ public class Asteroid implements Collidable  {
     public Point.Double getPosition() {
         return this.mPosition;
     }
-
-
-
 
     public void AsteroidMove(double deltaTime) {
 
