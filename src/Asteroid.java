@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Asteroid implements Collidable  {
+public class Asteroid implements Collidable {
 
     private final double SPEED_BUFFER = 50D;
     private final double ASTEROID_SCALE = 15D;
@@ -42,7 +42,6 @@ public class Asteroid implements Collidable  {
         //g.fillPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
         g.drawRect((int) mPosition.x - 30, (int) mPosition.y - 30, 55, 55);
     }
-
 
 
     public void changeDeltas(Asteroid otherAsteroid) {
@@ -110,8 +109,8 @@ public class Asteroid implements Collidable  {
 
     }
 
-    public Rectangle GetBounds(){
-        return new Rectangle((int)getPosition().getX(),(int)getPosition().getY(), 5, 5);
+    public Rectangle GetBounds() {
+        return new Rectangle((int) getPosition().getX(), (int) getPosition().getY(), 5, 5);
     }
 
 }

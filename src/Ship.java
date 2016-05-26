@@ -119,9 +119,4 @@ public class Ship extends Rectangle implements Collidable{
 
 	}
 
-    public Ship getShip(){
-        return this;
-    }
-
-
 }

@@ -53,7 +53,6 @@ public class MissileManager {
         return list;
     }
 
-
     public void ManageMissileList(){
         List<Missile> list = new ArrayList<>();
         for(Missile eachMissile: mMissileList){
