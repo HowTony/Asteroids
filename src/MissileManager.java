@@ -46,8 +46,8 @@ public class MissileManager {
 
     }
 
-    public ArrayList<Missile> getMissiles(){
-        ArrayList<Missile> list = new ArrayList<>();
+    public ArrayList<Collidable> getMissiles(){
+        ArrayList<Collidable> list = new ArrayList<>();
         for (Missile eachMissile:mMissileList) {
             list.add(eachMissile);
         }

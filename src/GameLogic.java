@@ -52,21 +52,15 @@ public class GameLogic {
 	}
 	
 	public void Update(double deltaTime) {
-		mUserInput.Update(deltaTime);
-		mPhysics.Update(deltaTime);
+        mUserInput.Update(deltaTime);
+        mPhysics.Update(deltaTime);
         mShip.Update(deltaTime);
         mAsteroidManager.Update(deltaTime);
         mMissleManager.Update(deltaTime);
-        mPhysics.addCollidale(mShip);
-        ArrayList<Asteroid> mAsteroidList = mAsteroidManager.getAsteroids();
-        for(Asteroid eachAsteroid: mAsteroidList){
-            mPhysics.addCollidale(eachAsteroid);
-        }
-        ArrayList<Missile> mMissileList = mMissleManager.getMissiles();
-        for(Missile eachMissile: mMissileList){
-            mPhysics.addCollidale(eachMissile);
-        }
-	}
+        mPhysics.addCollidable(mShip);
+        mPhysics.addCollidable(mAsteroidManager.getAsteroids());
+        mPhysics.addCollidable(mMissleManager.getMissiles());
+    }
 	
 	public void Draw(Graphics g) {
         mMissleManager.Draw(g);
