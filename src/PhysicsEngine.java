@@ -53,8 +53,12 @@ public class PhysicsEngine {
                 Collidable secondTestCase = mGameObjectList.get(b);
                 if (firstTestCase != secondTestCase) {
                     if (firstTestCase.GetBounds().intersects(secondTestCase.GetBounds())) {
-                        firstTestCase.Collide(secondTestCase.GetName() + "");
-                        secondTestCase.Collide(firstTestCase.GetName() + "");
+                        if(firstTestCase.GetName().contains("Astero") && secondTestCase.GetName().contains("Astero")) {
+                            firstTestCase.Collide(secondTestCase);
+                        }else{
+                            firstTestCase.Collide(secondTestCase);
+                            secondTestCase.Collide(firstTestCase);
+                        }
                     }
                 }
             }

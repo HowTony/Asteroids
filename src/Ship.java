@@ -116,9 +116,9 @@ public class Ship implements Collidable {
     }
 
     @Override
-    public void Collide(String name) {
-        if (name.contains("Asteroid")) {
-            System.out.println(GetName() + " Collided with " + name + "!");
+    public void Collide(Collidable c) {
+        if (c.GetName().contains("Asteroid")) {
+            //System.out.println(GetName() + " Collided with " + c.GetName() + "!");
         }
     }
 

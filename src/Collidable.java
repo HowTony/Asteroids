@@ -5,7 +5,7 @@ import java.awt.*;
  */
 public interface Collidable {
 
-    void Collide(String name);
+    void Collide(Collidable c);
     Rectangle GetBounds();
     String GetName();
     boolean IsAlive();

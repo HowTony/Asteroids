@@ -3,7 +3,9 @@ import java.awt.*;
 public class Asteroid extends Polygon implements Collidable {
 
     private final double SPEED_BUFFER = 50D;
-    private final double ASTEROID_SCALE = 15D;
+    private final double mAsteroidLarge = 15D;
+    private final double mAsteroidSmall = 7D;
+    private double mAsteroidScale;
     private Point.Double mPosition;
     private Point.Double mLargeAsteroidPointsArray[];
     private int mRenderArrayX[];
@@ -13,9 +15,14 @@ public class Asteroid extends Polygon implements Collidable {
     private double mDeltaX;
     private double mDeltaY;
 
-    public Asteroid(String name, Point.Double startPoint) {
+    public Asteroid(String name, int size, Point.Double startPoint) {
         mPosition = startPoint;
         mName = name;
+        if(size == 1){
+            mAsteroidScale = mAsteroidLarge;
+        }else {
+            mAsteroidScale = mAsteroidSmall;
+        }
         mDeltaX = (Math.random() * 2) - 1;
         mDeltaY = (Math.random() * 2) - 1;
         mIsAlive = true;
@@ -31,8 +38,8 @@ public class Asteroid extends Polygon implements Collidable {
                 new Point.Double(-1, 1),
                 new Point.Double(-2, 0)};
         for (int i = 0; i < mLargeAsteroidPointsArray.length; ++i) {
-            mLargeAsteroidPointsArray[i].x *= ASTEROID_SCALE;
-            mLargeAsteroidPointsArray[i].y *= ASTEROID_SCALE;
+            mLargeAsteroidPointsArray[i].x *= mAsteroidScale;
+            mLargeAsteroidPointsArray[i].y *= mAsteroidScale;
         }
         mRenderArrayX = new int[mLargeAsteroidPointsArray.length];
         mRenderArrayY = new int[mLargeAsteroidPointsArray.length];
@@ -46,33 +53,45 @@ public class Asteroid extends Polygon implements Collidable {
         //g.drawRect((int)test.getX(),(int)test.getY(),test.width,test.height);
     }
 
+
+    public double GetAsteroidSize(){
+        return this.mAsteroidScale;
+    }
+
     @Override
-    public String GetName(){
+    public String GetName() {
         return this.mName;
     }
 
-    public void ReverseDirection() {
-        mDeltaX -= (mDeltaX * 2);
-        mDeltaY -= (mDeltaY * 2);
+    public void ReverseDirection(Asteroid a) {
+        double DeltaXHolder = mDeltaX;
+        double DeltaYHolder = mDeltaY;
+
+        this.mDeltaX = a.GetDeltaX();
+        this.mDeltaY = a.GetDeltaY();
+
+        a.SetDeltaX(DeltaXHolder);
+        a.SetDeltaY(DeltaYHolder);
+
     }
 
-    public double getDeltaX() {
+    public double GetDeltaX() {
         return this.mDeltaX;
     }
 
-    public double getDeltaY() {
+    public double GetDeltaY() {
         return this.mDeltaY;
     }
 
-    public void setDeltaX(double deltaX) {
+    public void SetDeltaX(double deltaX) {
         this.mDeltaX = deltaX;
     }
 
-    public void setDeltaY(double deltaY) {
+    public void SetDeltaY(double deltaY) {
         this.mDeltaY = deltaY;
     }
 
-    public Point.Double getPosition() {
+    public Point.Double GetPosition() {
         return this.mPosition;
     }
 
@@ -105,29 +124,31 @@ public class Asteroid extends Polygon implements Collidable {
     }
 
     @Override
-    public void Collide(String name) {
-        if(name.contains("Missile")) {
-            if (mIsAlive) {
+    public void Collide(Collidable c) {
+        if (mIsAlive) {
+            if (c.GetName().contains("Missile")) {
                 SetAlive(false);
+                //System.out.println(GetName() + " Collided with " + c.GetName() + "!");
+//            } else if (c.GetName().contains("Asteroid")) {
+//                Asteroid a = (Asteroid)c;
+//                this.ReverseDirection(a);
+//                //System.out.println(GetName() + " has Collided with " + c.GetName());
+//            }else{
+//                System.out.println("SHip hit asteroid");
             }
-            System.out.println( GetName() +  " Collided with " + name + "!");
-        }
-        else if(name.contains("Asteroid")) {
-            ReverseDirection();
-            System.out.println( GetName() +  " Collided with " + name + "!");
         }
     }
 
     @Override
-    public Rectangle GetBounds(){
+    public Rectangle GetBounds() {
         return new Polygon(mRenderArrayX, mRenderArrayY, mRenderArrayX.length).getBounds();
     }
 
-    public boolean IsAlive(){
+    public boolean IsAlive() {
         return this.mIsAlive;
     }
 
-    public void SetAlive(boolean b){
+    public void SetAlive(boolean b) {
         this.mIsAlive = b;
     }
 }

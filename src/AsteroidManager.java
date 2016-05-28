@@ -15,8 +15,8 @@ public class AsteroidManager {
 
     public void AddAsteroid() {
         synchronized (mAsteroidList) {
-            while (mAsteroidList.size() < 10) {
-                mAsteroidList.add(new Asteroid("Asteroid " + mID,(new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
+            while (mAsteroidList.size() < 20) {
+                mAsteroidList.add(new Asteroid("Asteroid " + mID, 1,(new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
                 mID++;
             }
         }
@@ -56,8 +56,12 @@ public class AsteroidManager {
         }
         for (Asteroid eachAsteroid: list) {
             mAsteroidList.remove(eachAsteroid);
+            if(eachAsteroid.GetAsteroidSize() > 7) {
+                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() - 20))));
+                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() + 20))));
+                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() + 20))));
+                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() - 20))));
+            }
         }
     }
-
-
 }

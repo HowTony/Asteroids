@@ -4,7 +4,7 @@ import java.awt.*;
  * Created by Tony Howarth on 5/19/2016.
  */
 public class Missile implements Collidable {
-    
+
     private final double SPEED_BUFFER = 250D;
     private Point.Double mPosition;
     private Ship mShip;
@@ -41,14 +41,15 @@ public class Missile implements Collidable {
 
     public void Update(double deltaTime) {
         MissleMove(deltaTime);
+        OutOfBounds();
     }
 
     @Override
-    public void Collide(String name) {
-        if (name.contains("Asteroid")) {
+    public void Collide(Collidable c) {
+        if (c.GetName().contains("Asteroid")) {
             if (mIsAlive) {
                 SetAlive(false);
-                System.out.println( GetName() +  " Collided with " + name + "!");
+                System.out.println(GetName() + " Collided with " + c.GetName() + "!");
             }
         }
     }
@@ -71,13 +72,11 @@ public class Missile implements Collidable {
         this.mIsAlive = b;
     }
 
-    public boolean OutOfBounds() {
-        if (this.mPosition.getX() > GameWindow.CANVAS_WIDTH || this.mPosition.getX() < 0 ||
-                this.mPosition.getY() > GameWindow.CANVAS_HEIGHT || this.mPosition.getY() < 0) {
-            SetAlive(false);
-            return true;
+    public void OutOfBounds() {
+        if (IsAlive()) {
+            if (this.mPosition.getX() > GameWindow.CANVAS_WIDTH || this.mPosition.getX() < 0 || this.mPosition.getY() > GameWindow.CANVAS_HEIGHT || this.mPosition.getY() < 0) {
+                SetAlive(false);
+            }
         }
-        return false;
     }
-
 }
