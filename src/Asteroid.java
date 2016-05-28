@@ -144,8 +144,8 @@ public class Asteroid extends Polygon implements Collidable {
 
     @Override
     public void ReverseDirection(Collidable a) {
-        double DeltaXHolder = mDeltaX;
-        double DeltaYHolder = mDeltaY;
+        double DeltaXHolder = GetDeltaX();
+        double DeltaYHolder = GetDeltaY();
 
         this.mDeltaX = a.GetDeltaX();
         this.mDeltaY = a.GetDeltaY();
