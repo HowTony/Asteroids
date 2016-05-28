@@ -21,6 +21,10 @@ public class Ship implements Collidable {
     private int mRenderArrayX[];
     private int mRenderArrayY[];
 
+    private double mDeltaX;
+    private double mDeltaY;
+
+
     public Ship() {
         mName = "Ship";
         mPlayerX = new int[0];
@@ -137,4 +141,35 @@ public class Ship implements Collidable {
     public boolean IsAlive() {
         return this.mIsAlive;
     }
+
+    @Override
+    public double GetDeltaX(){
+     return this.mDeltaX;
+    }
+
+    @Override
+    public double GetDeltaY(){
+        return this.mDeltaY;
+    }
+
+    @Override
+    public void SetDeltaX(double d){
+        this.mDeltaX = d;
+    }
+
+    @Override
+    public void SetDeltaY(double d){
+        this.mDeltaY = d;
+    }
+
+    @Override
+    public void ReverseDirection(Collidable a) {
+
+    }
+
+    @Override
+    public void SetAlive(boolean b){
+        this.mIsAlive = b;
+    }
+
 }

@@ -58,39 +58,6 @@ public class Asteroid extends Polygon implements Collidable {
         return this.mAsteroidScale;
     }
 
-    @Override
-    public String GetName() {
-        return this.mName;
-    }
-
-    public void ReverseDirection(Asteroid a) {
-        double DeltaXHolder = mDeltaX;
-        double DeltaYHolder = mDeltaY;
-
-        this.mDeltaX = a.GetDeltaX();
-        this.mDeltaY = a.GetDeltaY();
-
-        a.SetDeltaX(DeltaXHolder);
-        a.SetDeltaY(DeltaYHolder);
-
-    }
-
-    public double GetDeltaX() {
-        return this.mDeltaX;
-    }
-
-    public double GetDeltaY() {
-        return this.mDeltaY;
-    }
-
-    public void SetDeltaX(double deltaX) {
-        this.mDeltaX = deltaX;
-    }
-
-    public void SetDeltaY(double deltaY) {
-        this.mDeltaY = deltaY;
-    }
-
     public Point.Double GetPosition() {
         return this.mPosition;
     }
@@ -133,8 +100,8 @@ public class Asteroid extends Polygon implements Collidable {
 //                Asteroid a = (Asteroid)c;
 //                this.ReverseDirection(a);
 //                //System.out.println(GetName() + " has Collided with " + c.GetName());
-//            }else{
-//                System.out.println("SHip hit asteroid");
+            }else{
+                System.out.println("SHip hit asteroid");
             }
         }
     }
@@ -144,11 +111,51 @@ public class Asteroid extends Polygon implements Collidable {
         return new Polygon(mRenderArrayX, mRenderArrayY, mRenderArrayX.length).getBounds();
     }
 
+    @Override
     public boolean IsAlive() {
         return this.mIsAlive;
     }
 
+    @Override
     public void SetAlive(boolean b) {
         this.mIsAlive = b;
+    }
+
+
+    @Override
+    public double GetDeltaX() {
+        return this.mDeltaX;
+    }
+
+    @Override
+    public double GetDeltaY() {
+        return this.mDeltaY;
+    }
+
+    @Override
+    public void SetDeltaX(double deltaX) {
+        this.mDeltaX = deltaX;
+    }
+
+    @Override
+    public void SetDeltaY(double deltaY) {
+        this.mDeltaY = deltaY;
+    }
+
+    @Override
+    public void ReverseDirection(Collidable a) {
+        double DeltaXHolder = mDeltaX;
+        double DeltaYHolder = mDeltaY;
+
+        this.mDeltaX = a.GetDeltaX();
+        this.mDeltaY = a.GetDeltaY();
+
+        a.SetDeltaX(DeltaXHolder);
+        a.SetDeltaY(DeltaYHolder);
+    }
+
+    @Override
+    public String GetName() {
+        return this.mName;
     }
 }

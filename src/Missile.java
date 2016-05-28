@@ -13,6 +13,9 @@ public class Missile implements Collidable {
     private String mName;
     private boolean mIsAlive;
 
+    private double mDeltaX;
+    private double mDeltaY;
+
     public Missile(String name, Ship ship) {
         mName = name;
         mShip = ship;
@@ -64,10 +67,12 @@ public class Missile implements Collidable {
         return new Rectangle((int) mPosition.getX(), (int) mPosition.getY(), 4, 4);
     }
 
+    @Override
     public boolean IsAlive() {
         return this.mIsAlive;
     }
 
+    @Override
     public void SetAlive(boolean b) {
         this.mIsAlive = b;
     }
@@ -79,4 +84,31 @@ public class Missile implements Collidable {
             }
         }
     }
+
+    @Override
+    public double GetDeltaX(){
+        return this.mDeltaX;
+    }
+
+    @Override
+    public double GetDeltaY(){
+        return this.mDeltaY;
+    }
+
+    @Override
+    public void SetDeltaX(double d){
+        this.mDeltaX = d;
+    }
+
+    @Override
+    public void SetDeltaY(double d){
+        this.mDeltaY = d;
+    }
+
+    @Override
+    public void ReverseDirection(Collidable a) {
+
+    }
+
+
 }

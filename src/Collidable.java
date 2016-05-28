@@ -9,4 +9,12 @@ public interface Collidable {
     Rectangle GetBounds();
     String GetName();
     boolean IsAlive();
+    void SetAlive(boolean b);
+    double GetDeltaX();
+    double GetDeltaY();
+    void SetDeltaX(double d);
+    void SetDeltaY(double d);
+    void ReverseDirection(Collidable a);
+
+
 }

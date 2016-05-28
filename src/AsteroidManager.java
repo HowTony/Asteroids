@@ -15,7 +15,7 @@ public class AsteroidManager {
 
     public void AddAsteroid() {
         synchronized (mAsteroidList) {
-            while (mAsteroidList.size() < 20) {
+            while (mAsteroidList.size() < 10) {
                 mAsteroidList.add(new Asteroid("Asteroid " + mID, 1,(new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
                 mID++;
             }

@@ -54,7 +54,7 @@ public class PhysicsEngine {
                 if (firstTestCase != secondTestCase) {
                     if (firstTestCase.GetBounds().intersects(secondTestCase.GetBounds())) {
                         if(firstTestCase.GetName().contains("Astero") && secondTestCase.GetName().contains("Astero")) {
-                            firstTestCase.Collide(secondTestCase);
+                            firstTestCase.ReverseDirection(secondTestCase);
                         }else{
                             firstTestCase.Collide(secondTestCase);
                             secondTestCase.Collide(firstTestCase);
