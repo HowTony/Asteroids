@@ -14,6 +14,10 @@ public class Asteroid extends Polygon implements Collidable {
     private boolean mIsAlive;
     private double mDeltaX;
     private double mDeltaY;
+    private int mId = 0;
+    private int mLastCollision = 0;
+
+    private static int sId = 0;
 
     public Asteroid(String name, int size, Point.Double startPoint) {
         mPosition = startPoint;
@@ -43,6 +47,9 @@ public class Asteroid extends Polygon implements Collidable {
         }
         mRenderArrayX = new int[mLargeAsteroidPointsArray.length];
         mRenderArrayY = new int[mLargeAsteroidPointsArray.length];
+
+        sId++;
+        mId = sId;
     }
 
     public void Draw(Graphics g) {
@@ -77,6 +84,7 @@ public class Asteroid extends Polygon implements Collidable {
         if (mPosition.y < 0) {
             mPosition.y = maxHeight;
         }
+
         mPosition.x += mDeltaX * SPEED_BUFFER * deltaTime;
         mPosition.y += mDeltaY * SPEED_BUFFER * deltaTime;
     }
@@ -88,6 +96,14 @@ public class Asteroid extends Polygon implements Collidable {
             mRenderArrayY[i] = (int) currentPoint.y + (int) mPosition.y;
         }
         AsteroidMove(deltaTime);
+    }
+
+    public int GetId() {
+        return mId;
+    }
+
+    public void SetLastCollision(Asteroid other) {
+        mLastCollision = other.GetId();
     }
 
     @Override
@@ -144,14 +160,23 @@ public class Asteroid extends Polygon implements Collidable {
 
     @Override
     public void ReverseDirection(Collidable a) {
-        double DeltaXHolder = GetDeltaX();
-        double DeltaYHolder = GetDeltaY();
+        Asteroid otherAsteroid = (Asteroid)a;
 
-        this.mDeltaX = a.GetDeltaX();
-        this.mDeltaY = a.GetDeltaY();
+        if(otherAsteroid != null) {
+            if(mLastCollision != otherAsteroid.GetId()) {
+                double DeltaXHolder = GetDeltaX();
+                double DeltaYHolder = GetDeltaY();
 
-        a.SetDeltaX(DeltaXHolder);
-        a.SetDeltaY(DeltaYHolder);
+                SetDeltaX(a.GetDeltaX());
+                SetDeltaY(a.GetDeltaY());
+
+                a.SetDeltaX(DeltaXHolder);
+                a.SetDeltaY(DeltaYHolder);
+
+                mLastCollision = otherAsteroid.GetId();
+                otherAsteroid.SetLastCollision(this);
+            }
+        }
     }
 
     @Override

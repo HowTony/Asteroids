@@ -6,7 +6,8 @@ import java.util.Collections;
  * Created by Tony Howarth on 5/18/2016.
  */
 public class AsteroidManager {
-    private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<>());
+    private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<Asteroid>());
+
     private int mID = 1;
 
     public AsteroidManager() {
