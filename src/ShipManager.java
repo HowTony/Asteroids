@@ -49,7 +49,6 @@ public class ShipManager {
         }
     }
 
-
     public void ManageShipList(){
         List<Ship> list = new ArrayList<Ship>();
         synchronized (mShipList) {
@@ -63,7 +62,6 @@ public class ShipManager {
                     mShipList.remove(eachShip);
                 }
             }
-
         }
 
     }

@@ -7,7 +7,7 @@ public class Missile implements Collidable {
 
     private final double SPEED_BUFFER = 250D;
     private Point.Double mPosition;
-    private Ship mShip;
+    private ShipManager mShip;
     private Point.Double mDirection;
     private Point.Double mStartPos;
     private String mName;
@@ -16,12 +16,12 @@ public class Missile implements Collidable {
     private double mDeltaX;
     private double mDeltaY;
 
-    public Missile(String name, Ship ship) {
+    public Missile(String name, ShipManager ship) {
         mName = name;
         mShip = ship;
-        mPosition = mShip.getMissleStart();
-        mStartPos = mShip.getMissleStart();
-        mDirection = mShip.getmForwardVector();
+        mPosition = mShip.GetCurrentShip().GetMissleStart();
+        mStartPos = mShip.GetCurrentShip().GetMissleStart();
+        mDirection = mShip.GetCurrentShip().GetmForwardVector();
         mIsAlive = true;
     }
 

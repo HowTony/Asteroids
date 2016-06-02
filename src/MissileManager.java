@@ -9,10 +9,10 @@ import java.util.Collections;
 public class MissileManager {
 
     private int mID = 1;
-    private Ship mShip;
+    private ShipManager mShip;
     private List<Missile> mMissileList = Collections.synchronizedList(new ArrayList<Missile>());
 
-    public MissileManager(Ship ship) {
+    public MissileManager(ShipManager ship) {
         mShip = ship;
     }
 

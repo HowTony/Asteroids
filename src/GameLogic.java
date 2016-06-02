@@ -17,7 +17,7 @@ public class GameLogic {
         mScore = new ScoreManager();
         mShipList = new ShipManager();
         mAsteroidManager = new AsteroidManager(mScore);
-        mMissleManager = new MissileManager(mShipList.GetCurrentShip());
+        mMissleManager = new MissileManager(mShipList);
         mUserInput = new UserInput(mShipList, mMissleManager);
         mGameWindow.RegisterKeyListener(mUserInput);
         mHUD = new HUDManager(mScore, mShipList);

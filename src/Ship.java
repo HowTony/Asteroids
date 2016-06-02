@@ -90,11 +90,11 @@ public class Ship implements Collidable {
     }
 
 
-    public Point.Double getmForwardVector() {
+    public Point.Double GetmForwardVector() {
         return new Point.Double(mForwardVector.x, mForwardVector.y);
     }
 
-    public Point.Double getMissleStart() {
+    public Point.Double GetMissleStart() {
         return new Point.Double((int) (mShipPointsArray[0].getX() + mPosition.getX()), (int) (mShipPointsArray[0].getY() + mPosition.getY()));
     }
 
