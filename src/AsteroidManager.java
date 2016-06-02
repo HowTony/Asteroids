@@ -7,11 +7,13 @@ import java.util.Collections;
  */
 public class AsteroidManager {
     private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<Asteroid>());
+    private ScoreManager mScore;
 
     private int mID = 1;
 
-    public AsteroidManager() {
+    public AsteroidManager(ScoreManager score) {
         AddAsteroid();
+        mScore = score;
     }
 
     public void AddAsteroid() {
@@ -53,8 +55,11 @@ public class AsteroidManager {
         for(Asteroid eachAsteroid: mAsteroidList){
             if(!eachAsteroid.IsAlive()){
                 list.add(eachAsteroid);
+                mScore.AddScore(eachAsteroid.GetScoreValue());
             }
         }
+
+
         for (Asteroid eachAsteroid: list) {
             mAsteroidList.remove(eachAsteroid);
             if(eachAsteroid.GetAsteroidSize() > 7) {

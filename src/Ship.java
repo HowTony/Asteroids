@@ -54,8 +54,11 @@ public class Ship implements Collidable {
 
     public void Draw(Graphics g) {
         // do all the drawing...
+
         g.setColor(Color.BLUE);
         g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+
+
 //        g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 //        Rectangle test = this.GetBounds();
 //        g.drawRect((int) test.getX(), (int) test.getY(), test.width, test.height);
@@ -86,6 +89,7 @@ public class Ship implements Collidable {
         mRotationDelta = 0D;
     }
 
+
     public Point.Double getmForwardVector() {
         return new Point.Double(mForwardVector.x, mForwardVector.y);
     }
@@ -95,34 +99,39 @@ public class Ship implements Collidable {
     }
 
     public void Rotate(double theta) {
-        mRotationDelta += theta * ROTATION_BUFFER;
+        if (IsAlive()) {
+            mRotationDelta += theta * ROTATION_BUFFER;
+        }
     }
 
     public void Move(double delta) {
-        double maxWidth = GameWindow.CANVAS_WIDTH;
-        double maxHeight = GameWindow.CANVAS_HEIGHT;
+        if (IsAlive()) {
 
-        if (mPosition.x > maxWidth) {
-            mPosition.x = 0;
-        }
-        if (mPosition.x < 0) {
-            mPosition.x = (int) maxWidth;
-        }
+            double maxWidth = GameWindow.CANVAS_WIDTH;
+            double maxHeight = GameWindow.CANVAS_HEIGHT;
 
-        if (mPosition.y > maxHeight) {
-            mPosition.y = 0;
+            if (mPosition.x > maxWidth) {
+                mPosition.x = 0;
+            }
+            if (mPosition.x < 0) {
+                mPosition.x = (int) maxWidth;
+            }
+
+            if (mPosition.y > maxHeight) {
+                mPosition.y = 0;
+            }
+            if (mPosition.y < 0) {
+                mPosition.y = (int) maxHeight;
+            }
+            mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
+            mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
         }
-        if (mPosition.y < 0) {
-            mPosition.y = (int) maxHeight;
-        }
-        mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
-        mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
     }
 
     @Override
     public void Collide(Collidable c) {
         if (c.GetName().contains("Asteroid")) {
-            //System.out.println(GetName() + " Collided with " + c.GetName() + "!");
+            SetAlive(false);
         }
     }
 
@@ -143,32 +152,31 @@ public class Ship implements Collidable {
     }
 
     @Override
-    public double GetDeltaX(){
-     return this.mDeltaX;
+    public double GetDeltaX() {
+        return this.mDeltaX;
     }
 
     @Override
-    public double GetDeltaY(){
+    public double GetDeltaY() {
         return this.mDeltaY;
     }
 
     @Override
-    public void SetDeltaX(double d){
+    public void SetDeltaX(double d) {
         this.mDeltaX = d;
     }
 
     @Override
-    public void SetDeltaY(double d){
+    public void SetDeltaY(double d) {
         this.mDeltaY = d;
     }
 
     @Override
     public void ReverseDirection(Collidable a) {
-
     }
 
     @Override
-    public void SetAlive(boolean b){
+    public void SetAlive(boolean b) {
         this.mIsAlive = b;
     }
 

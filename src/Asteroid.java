@@ -16,6 +16,8 @@ public class Asteroid extends Polygon implements Collidable {
     private double mDeltaY;
     private int mId = 0;
     private int mLastCollision = 0;
+    private final int LARGE_ASTEROID_SCORE = 100;
+    private final int SMALL_ASTEROID_SCORE = 25;
 
     private static int sId = 0;
 
@@ -117,8 +119,17 @@ public class Asteroid extends Polygon implements Collidable {
 //                this.ReverseDirection(a);
 //                //System.out.println(GetName() + " has Collided with " + c.GetName());
             }else{
-                System.out.println("SHip hit asteroid");
+                System.out.println("Ship hit asteroid");
             }
+        }
+    }
+
+
+    public int GetScoreValue(){
+        if(mAsteroidScale == mAsteroidLarge){
+            return LARGE_ASTEROID_SCORE;
+        }else{
+            return SMALL_ASTEROID_SCORE;
         }
     }
 

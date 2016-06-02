@@ -6,17 +6,22 @@ public class GameLogic {
     private UserInput mUserInput;
     private PhysicsEngine mPhysics;
     private AsteroidManager mAsteroidManager;
-    private Ship mShip;
     private MissileManager mMissleManager;
+    private HUDManager mHUD;
+    private ScoreManager mScore;
+    private ShipManager mShipList;
 
     public GameLogic(GameWindow window) {
         mGameWindow = window;
         mPhysics = new PhysicsEngine();
-        mShip = new Ship();
-        mAsteroidManager = new AsteroidManager();
-        mMissleManager = new MissileManager(mShip);
-        mUserInput = new UserInput(mShip, mMissleManager);
+        mScore = new ScoreManager();
+        mShipList = new ShipManager();
+        mAsteroidManager = new AsteroidManager(mScore);
+        mMissleManager = new MissileManager(mShipList.GetCurrentShip());
+        mUserInput = new UserInput(mShipList, mMissleManager);
         mGameWindow.RegisterKeyListener(mUserInput);
+        mHUD = new HUDManager(mScore, mShipList);
+
 
         StartGameLoop();
     }
@@ -52,17 +57,20 @@ public class GameLogic {
     public void Update(double deltaTime) {
         mUserInput.Update(deltaTime);
         mPhysics.Update(deltaTime);
-        mShip.Update(deltaTime);
         mAsteroidManager.Update(deltaTime);
         mMissleManager.Update(deltaTime);
-        mPhysics.AddCollidable(mShip);
+        if(mShipList.GetShipLives() > 0) {
+            mPhysics.AddCollidable(mShipList.GetCurrentShip());
+        }
         mPhysics.AddCollidable(mAsteroidManager.GetAsteroids());
         mPhysics.AddCollidable(mMissleManager.GetMissiles());
+        mShipList.Update(deltaTime);
     }
 
     public void Draw(Graphics g) {
-        mShip.Draw(g);
         mMissleManager.Draw(g);
         mAsteroidManager.Draw(g);
+        mHUD.Draw(g);
+        mShipList.Draw(g);
     }
 }
