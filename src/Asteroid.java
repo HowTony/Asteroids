@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 
 public class Asteroid extends Polygon implements Collidable {
@@ -9,6 +11,7 @@ public class Asteroid extends Polygon implements Collidable {
     private double mAsteroidScale;
     private Point.Double mPosition;
     private Point.Double mLargeAsteroidPointsArray[];
+
     private int mRenderArrayX[];
     private int mRenderArrayY[];
     private String mName;
@@ -33,23 +36,9 @@ public class Asteroid extends Polygon implements Collidable {
         mDeltaX = (Math.random() * 2) - 1;
         mDeltaY = (Math.random() * 2) - 1;
         mIsAlive = true;
-        mLargeAsteroidPointsArray = MakeAsteroids();
 
+        mLargeAsteroidPointsArray = RandomAsteroid((int)(Math.random() * 5) + 1);
 
-
-
-
-//        mLargeAsteroidPointsArray = new Point.Double[]{
-//                new Point.Double(-2, -1),
-//                new Point.Double(0, -2),
-//                new Point.Double(0, -1),
-//                new Point.Double(1, -2),
-//                new Point.Double(2, -1),
-//                new Point.Double(2, 1),
-//                new Point.Double(1, 1),
-//                new Point.Double(0, 2),
-//                new Point.Double(-1, 1),
-//                new Point.Double(-2, 0)};
         for (int i = 0; i < mLargeAsteroidPointsArray.length; ++i) {
             mLargeAsteroidPointsArray[i].x *= mAsteroidScale;
             mLargeAsteroidPointsArray[i].y *= mAsteroidScale;
@@ -77,6 +66,7 @@ public class Asteroid extends Polygon implements Collidable {
         for (int i = 0; i < nPoints; i++) {
              asteroid[i] = new Point.Double(GetRandomNumber() , GetRandomNumber());
         }
+
         return asteroid;
     }
 
@@ -217,5 +207,92 @@ public class Asteroid extends Polygon implements Collidable {
     @Override
     public String GetName() {
         return this.mName;
+    }
+
+
+    public Point.Double[] RandomAsteroid(int num){
+        System.out.println(num);
+
+
+        Point.Double[] asteroid1 = new Point.Double[]{
+                new Point.Double(-2, -1),
+                new Point.Double(0, -2),
+                new Point.Double(0, -1),
+                new Point.Double(1, -2),
+                new Point.Double(2, -1),
+                new Point.Double(2, 1),
+                new Point.Double(1, 1),
+                new Point.Double(0, 2),
+                new Point.Double(-1, 1),
+                new Point.Double(-2, 0)};
+
+        Point.Double[] asteroid2 = new Point.Double[]{
+                new Point.Double(-2, 0),
+                new Point.Double(-1, -0.5),
+                new Point.Double(0, -2),
+                new Point.Double(1, -1.5),
+                new Point.Double(2, -.5),
+                new Point.Double(1.5, 1),
+                new Point.Double(.5, 2),
+                new Point.Double(-1, 1.5)};
+
+        Point.Double[] asteroid3 = new Point.Double[]{
+                new Point.Double(-2, -1.5),
+                new Point.Double(-2, -2),
+                new Point.Double(-1,-2.5),
+                new Point.Double(0, -2.5),
+                new Point.Double(1, -2),
+                new Point.Double(1.2, -1.5),
+                new Point.Double(1, 0),
+                new Point.Double(0, 1),
+                new Point.Double(-2, 0.5),
+                new Point.Double(-2.3, 0),
+                new Point.Double(-2.4, -0.5),
+                new Point.Double(-1, -1)};
+
+        Point.Double[] asteroid4 = new Point.Double[]{
+                new Point.Double(-1, -2.5),
+                new Point.Double(0, -2),
+                new Point.Double(1, -2.5),
+                new Point.Double(1.5, -1),
+                new Point.Double(1, -0.5),
+                new Point.Double(2, 1),
+                new Point.Double(0, 1.5),
+                new Point.Double(-2.5, 0.5),
+                new Point.Double(-2, 0),
+                new Point.Double(-2.5, -0.8),
+                new Point.Double(-1.8, -1.2),
+                new Point.Double(-1, -2)};
+
+        Point.Double[] asteroid5 = new Point.Double[]{
+                new Point.Double(-1.8, -1),
+                new Point.Double(-1, -1.8),
+                new Point.Double(0, -2.1),
+                new Point.Double(1, -2.2),
+                new Point.Double(2, -1.65),
+                new Point.Double(3, -0.8),
+                new Point.Double(2, -0.95),
+                new Point.Double(3, -0.2),
+                new Point.Double(2, 1.7),
+                new Point.Double(1.6, 1),
+                new Point.Double(1, 1.2),
+                new Point.Double(1.2, 1.9),
+                new Point.Double(0, 1.9),
+                new Point.Double(-1, 1.3),
+                new Point.Double(-1.4, 1),
+                new Point.Double(-1.7, 0),
+                new Point.Double(-1, -0.5)};
+
+        if(num == 1){
+            return asteroid1;
+        }else if(num == 2){
+            return asteroid2;
+        }else if(num == 3){
+            return asteroid3;
+        }else if(num == 4){
+            return asteroid4;
+        }else{
+            return asteroid5;
+        }
     }
 }

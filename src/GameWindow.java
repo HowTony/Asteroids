@@ -38,8 +38,6 @@ public class GameWindow extends JFrame{
 	public void RegisterKeyListener(KeyListener k){
 		this.addKeyListener(k); 
 	}
-			
-	
 	
 	private class DrawCanvas extends JPanel {
 		// Override paintComponent to perform your own painting
