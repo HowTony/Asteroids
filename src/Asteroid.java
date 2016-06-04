@@ -1,7 +1,4 @@
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collections;
-
 
 public class Asteroid extends Polygon implements Collidable {
 

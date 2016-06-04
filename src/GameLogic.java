@@ -11,6 +11,7 @@ public class GameLogic {
     private ScoreManager mScore;
     private ShipManager mShipList;
 
+
     public GameLogic(GameWindow window) {
         mGameWindow = window;
         mPhysics = new PhysicsEngine();

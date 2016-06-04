@@ -1,11 +1,19 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 public class Ship implements Collidable {
 
     private final double ROTATION_BUFFER = 6D;
     private final double SPEED_BUFFER = 150D;
     private final double SHIP_SCALE = 4D;
+
+
+
+    private double move = 0;
+    private double SPEED = 0.0004;
+    private int counter = 0;
+
 
     // SHIP
     private int mPlayerX[];
@@ -55,13 +63,40 @@ public class Ship implements Collidable {
     public void Draw(Graphics g) {
         // do all the drawing...
 
-        g.setColor(Color.BLUE);
-        g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+        if (IsAlive()) {
+
+            g.setColor(Color.BLUE);
+            g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
+
+            g.setColor(Color.cyan);
+
+            if (counter < 400000) {
+                g.drawLine(mRenderArrayX[0] + (int) move, mRenderArrayY[0] + (int) move
+                        , mRenderArrayX[1] + (int) move, mRenderArrayY[1] + (int) move);
+                g.drawLine(mRenderArrayX[1] - (int) move, mRenderArrayY[1] - (int) move
+                        , mRenderArrayX[2] - (int) move, mRenderArrayY[2] - (int) move);
+                g.drawLine(mRenderArrayX[2] - (int) move, mRenderArrayY[2] + (int) move
+                        , mRenderArrayX[3] - (int) move, mRenderArrayY[3] + (int) move);
+                g.drawLine(mRenderArrayX[3] + (int) move, mRenderArrayY[3] - (int) move
+                        , mRenderArrayX[0] + (int) move, mRenderArrayY[0] - (int) move);
+            }
+
+
+            //        for(int i = 0; i < mRenderArrayX.length; i++){
+//            int n = i + 1;
+//            if(n == 4){
+//                n = 0;
+//            }
+//            g.drawLine(mRenderArrayX[i]+ (int)move, mRenderArrayY[i] +(int) move
+//                    ,mRenderArrayX[n] + (int)move, mRenderArrayY[n] + (int)move);
+//        }
+//
 
 
 //        g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 //        Rectangle test = this.GetBounds();
 //        g.drawRect((int) test.getX(), (int) test.getY(), test.width, test.height);
+        }
     }
 
     public void Update(double deltaTime) {
@@ -87,7 +122,20 @@ public class Ship implements Collidable {
         // reset rotation in preparation for next draw
         mTransform.setToIdentity();
         mRotationDelta = 0D;
+
+        if(IsAlive()){
+            MoveLines();
+            counter++;
+        }
+
+
+
     }
+
+    public void MoveLines(){
+        move += 1 * SPEED;
+    }
+
 
 
     public Point.Double GetmForwardVector() {
@@ -102,6 +150,11 @@ public class Ship implements Collidable {
         if (IsAlive()) {
             mRotationDelta += theta * ROTATION_BUFFER;
         }
+    }
+
+
+    public Point GetRenderPoints(int point){
+        return new Point(mRenderArrayX[point], mRenderArrayY[point]);
     }
 
     public void Move(double delta) {
@@ -126,6 +179,14 @@ public class Ship implements Collidable {
             mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
             mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
         }
+    }
+
+    public ArrayList<Point.Double> GetRenderArray(){
+        ArrayList<Point.Double> list = new ArrayList<>();
+        for(int i = 0; i < mRenderArrayX.length; i++){
+            list.add(new Point.Double(mRenderArrayX[i],mRenderArrayY[i]));
+        }
+        return list;
     }
 
     @Override
