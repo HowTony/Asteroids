@@ -8,13 +8,6 @@ public class Ship implements Collidable {
     private final double SPEED_BUFFER = 150D;
     private final double SHIP_SCALE = 4D;
 
-
-
-    private double move = 0;
-    private double SPEED = 0.0004;
-    private int counter = 0;
-
-
     // SHIP
     private int mPlayerX[];
     private int mPlayerY[];
@@ -22,6 +15,10 @@ public class Ship implements Collidable {
     private Point.Double mOrigin;
     private Point.Double mForwardVector;
     private AffineTransform mTransform;
+
+//    private double mThrust = 0;
+//    private boolean mThrusting = false;
+
     private double mRotationDelta;
     private String mName;
     private boolean mIsAlive = true;
@@ -65,34 +62,8 @@ public class Ship implements Collidable {
 
         if (IsAlive()) {
 
-            g.setColor(Color.BLUE);
+            g.setColor(Color.WHITE);
             g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-
-            g.setColor(Color.cyan);
-
-            if (counter < 400000) {
-                g.drawLine(mRenderArrayX[0] + (int) move, mRenderArrayY[0] + (int) move
-                        , mRenderArrayX[1] + (int) move, mRenderArrayY[1] + (int) move);
-                g.drawLine(mRenderArrayX[1] - (int) move, mRenderArrayY[1] - (int) move
-                        , mRenderArrayX[2] - (int) move, mRenderArrayY[2] - (int) move);
-                g.drawLine(mRenderArrayX[2] - (int) move, mRenderArrayY[2] + (int) move
-                        , mRenderArrayX[3] - (int) move, mRenderArrayY[3] + (int) move);
-                g.drawLine(mRenderArrayX[3] + (int) move, mRenderArrayY[3] - (int) move
-                        , mRenderArrayX[0] + (int) move, mRenderArrayY[0] - (int) move);
-            }
-
-
-            //        for(int i = 0; i < mRenderArrayX.length; i++){
-//            int n = i + 1;
-//            if(n == 4){
-//                n = 0;
-//            }
-//            g.drawLine(mRenderArrayX[i]+ (int)move, mRenderArrayY[i] +(int) move
-//                    ,mRenderArrayX[n] + (int)move, mRenderArrayY[n] + (int)move);
-//        }
-//
-
-
 //        g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 //        Rectangle test = this.GetBounds();
 //        g.drawRect((int) test.getX(), (int) test.getY(), test.width, test.height);
@@ -123,19 +94,16 @@ public class Ship implements Collidable {
         mTransform.setToIdentity();
         mRotationDelta = 0D;
 
-        if(IsAlive()){
-            MoveLines();
-            counter++;
-        }
-
-
-
+//        if(mThrusting){
+//            Move();
+//        }
+//        if(mThrust > 0){
+//            RemoveThrust();
+//        }
+//        if(mThrusting && mThrust <= 0){
+//            SetThrusting(false);
+//        }
     }
-
-    public void MoveLines(){
-        move += 1 * SPEED;
-    }
-
 
 
     public Point.Double GetmForwardVector() {
@@ -152,12 +120,24 @@ public class Ship implements Collidable {
         }
     }
 
+//    public void AddThrust(){
+//        if(mThrust < 150)
+//        mThrust += 0.00000001;
+//    }
+//
+//    public void RemoveThrust(){
+//        mThrust -= .0000001;
+//    }
+//
+//    public void SetThrusting(boolean b){
+//        mThrusting = b;
+//    }
 
     public Point GetRenderPoints(int point){
         return new Point(mRenderArrayX[point], mRenderArrayY[point]);
     }
 
-    public void Move(double delta) {
+    public void Move(double deltaTime) {
         if (IsAlive()) {
 
             double maxWidth = GameWindow.CANVAS_WIDTH;
@@ -176,8 +156,8 @@ public class Ship implements Collidable {
             if (mPosition.y < 0) {
                 mPosition.y = (int) maxHeight;
             }
-            mPosition.x += mForwardVector.x * delta * SPEED_BUFFER;
-            mPosition.y += mForwardVector.y * delta * SPEED_BUFFER;
+            mPosition.x += mForwardVector.x * deltaTime * SPEED_BUFFER;
+            mPosition.y += mForwardVector.y * deltaTime * SPEED_BUFFER;
         }
     }
 

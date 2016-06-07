@@ -10,6 +10,7 @@ public class GameLogic {
     private HUDManager mHUD;
     private ScoreManager mScore;
     private ShipManager mShipList;
+    private AudioPlayer mGameMusic;
 
 
     public GameLogic(GameWindow window) {
@@ -22,6 +23,8 @@ public class GameLogic {
         mUserInput = new UserInput(mShipList, mMissleManager);
         mGameWindow.RegisterKeyListener(mUserInput);
         mHUD = new HUDManager(mScore, mShipList);
+        mGameMusic = new AudioPlayer("Resources/Music/Plasma.wav");
+        mGameMusic.Play();
 
 
         StartGameLoop();
@@ -66,6 +69,7 @@ public class GameLogic {
         mPhysics.AddCollidable(mAsteroidManager.GetAsteroids());
         mPhysics.AddCollidable(mMissleManager.GetMissiles());
         mShipList.Update(deltaTime);
+
     }
 
     public void Draw(Graphics g) {

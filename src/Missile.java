@@ -26,8 +26,8 @@ public class Missile implements Collidable {
     }
 
     public void Draw(Graphics g) {
-        g.setColor(Color.cyan);
-        g.drawOval((int) mPosition.x, (int) mPosition.y, 4, 4);
+        g.setColor(Color.WHITE);
+        g.drawOval((int) mPosition.x, (int) mPosition.y, 2, 2);
 //        Rectangle test = this.GetBounds();
 //        g.drawRect((int)test.getX(), (int)test.getY(), test.width, test.height);
     }

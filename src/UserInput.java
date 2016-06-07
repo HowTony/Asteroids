@@ -70,6 +70,8 @@ public class UserInput implements KeyListener {
         if (mShip.GetShipLives() > 0) {
             if (mInputs[KeyEvent.VK_W]) {
                 mShip.GetCurrentShip().Move(1D * deltaTime);
+//                mShip.GetCurrentShip().AddThrust();
+//                mShip.GetCurrentShip().SetThrusting(true);
             }
             if (mInputs[KeyEvent.VK_SPACE] && !mTriggerLocked) {
                 mMissileManager.Spawn();

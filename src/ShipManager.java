@@ -8,11 +8,16 @@ import java.util.List;
  */
 public class ShipManager {
 
+    private int mDeathTimer = 0;
+    private AnimatedLine mDeathAnimation;
+    private boolean mCurrentShipDied = false;
+    private AudioPlayer mSoundFX;
+
     private List<Ship> mShipList = Collections.synchronizedList(new ArrayList<Ship>());
 
     public ShipManager() {
         AddShips();
-
+        mSoundFX = new AudioPlayer("Resources/SFX/shipDeath.wav");
     }
 
     public void AddShips() {
@@ -33,6 +38,10 @@ public class ShipManager {
     public void Draw(Graphics g) {
         if (mShipList.size() > 0) {
             mShipList.get(0).Draw(g);
+        }
+
+        if(mCurrentShipDied){
+            mDeathAnimation.Draw(g);
         }
     }
 
@@ -58,7 +67,19 @@ public class ShipManager {
             }
             for (Ship eachShip : list) {
                 if (mShipList.size() > 0) {
-                    mShipList.remove(eachShip);
+                    mDeathTimer++;
+                    if(!mCurrentShipDied){
+                        mDeathAnimation = new AnimatedLine(eachShip);
+                        mCurrentShipDied = true;
+                        mSoundFX.Play();
+                    }
+                    mDeathAnimation.Update();
+
+                    if(mDeathTimer >= 50000) {
+                        mShipList.remove(eachShip);
+                        mDeathTimer = 0;
+                        mCurrentShipDied = false;
+                    }
                 }
             }
         }

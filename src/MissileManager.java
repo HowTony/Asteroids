@@ -1,3 +1,4 @@
+import javax.sound.sampled.AudioSystem;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ public class MissileManager {
     private int mID = 1;
     private ShipManager mShip;
     private List<Missile> mMissileList = Collections.synchronizedList(new ArrayList<Missile>());
+    private AudioPlayer mSoundFX;
 
     public MissileManager(ShipManager ship) {
         mShip = ship;
+        mSoundFX = new AudioPlayer("Resources/SFX/pew.wav");
     }
 
     public void AddMissile() {
@@ -22,6 +25,7 @@ public class MissileManager {
                 mMissileList.add(new Missile("Missile " + mID, mShip));
 //              System.out.println("num of missiles " + mMissileList.size());
                 mID++;
+                mSoundFX.Play();
             }
         }
     }
@@ -34,6 +38,7 @@ public class MissileManager {
         synchronized (mMissileList) {
             for (Missile eachMissile : mMissileList) {
                 eachMissile.Draw(g);
+
             }
         }
     }

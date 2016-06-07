@@ -48,7 +48,7 @@ public class Asteroid extends Polygon implements Collidable {
     }
 
     public void Draw(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.WHITE);
         g.drawPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
         //g.fillPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
         //Rectangle test = this.GetBounds();
@@ -209,8 +209,6 @@ public class Asteroid extends Polygon implements Collidable {
 
     public Point.Double[] RandomAsteroid(int num){
         System.out.println(num);
-
-
         Point.Double[] asteroid1 = new Point.Double[]{
                 new Point.Double(-2, -1),
                 new Point.Double(0, -2),

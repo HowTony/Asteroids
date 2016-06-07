@@ -8,17 +8,19 @@ import java.util.Collections;
 public class AsteroidManager {
     private List<Asteroid> mAsteroidList = Collections.synchronizedList(new ArrayList<Asteroid>());
     private ScoreManager mScore;
+    private AudioPlayer mSoundFX;
 
     private int mID = 1;
 
     public AsteroidManager(ScoreManager score) {
         AddAsteroid();
         mScore = score;
+        mSoundFX = new AudioPlayer("Resources/SFX/boom.wav");
     }
 
     public void AddAsteroid() {
         synchronized (mAsteroidList) {
-            while (mAsteroidList.size() < 10) {
+            while (mAsteroidList.size() < 4) {
                 mAsteroidList.add(new Asteroid("Asteroid " + mID, 1,(new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT))));
                 mID++;
             }
@@ -62,6 +64,7 @@ public class AsteroidManager {
 
         for (Asteroid eachAsteroid: list) {
             mAsteroidList.remove(eachAsteroid);
+            mSoundFX.Play();
             if(eachAsteroid.GetAsteroidSize() > 7) {
                 mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() - 20))));
                 mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() + 20))));
