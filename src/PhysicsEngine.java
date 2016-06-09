@@ -1,4 +1,5 @@
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +9,17 @@ import java.util.List;
 public class PhysicsEngine {
 
     ArrayList<Collidable> mGameObjectList;
+    private SafeSpawn mSafeZone;
 
-    public PhysicsEngine() {
+    public PhysicsEngine(SafeSpawn safe) {
+        mSafeZone = safe;
         mGameObjectList = new ArrayList<>();
     }
 
     public void AddCollidable(Collidable c) {
         if (!mGameObjectList.contains(c)) {
             mGameObjectList.add(c);
-            System.out.println("Collidable " + mGameObjectList.size());
+            System.out.println(c);
         }
     }
 
@@ -24,7 +27,6 @@ public class PhysicsEngine {
         for (Collidable eachCollidable : list) {
             if (!mGameObjectList.contains(eachCollidable)) {
                 mGameObjectList.add(eachCollidable);
-                System.out.println("Collidable " + mGameObjectList.size());
             }
         }
     }
@@ -44,6 +46,7 @@ public class PhysicsEngine {
     public void Update(double deltaTime) {
         CheckCollision();
         ManageObjectList();
+        mSafeZone.Update(deltaTime);
     }
 
     public void CheckCollision() {
@@ -52,6 +55,13 @@ public class PhysicsEngine {
                 Collidable firstTestCase = mGameObjectList.get(a);
                 Collidable secondTestCase = mGameObjectList.get(b);
                 if (firstTestCase != secondTestCase) {
+                    if(firstTestCase.GetName().contains("Astero")) {
+                        if (firstTestCase.GetBounds().intersects(mSafeZone.GetBounds())) {
+                            mSafeZone.SetIsSafe(false);
+                        } else {
+                            mSafeZone.SetIsSafe(true);
+                        }
+                    }
                     if (firstTestCase.GetBounds().intersects(secondTestCase.GetBounds())) {
                         if(firstTestCase.GetName().contains("Astero") && secondTestCase.GetName().contains("Astero")) {
                             firstTestCase.ReverseDirection(secondTestCase);

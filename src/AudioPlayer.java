@@ -34,7 +34,6 @@ public class AudioPlayer {
         if(mClip == null){
             return;
         }
-        Stop();
         mClip.setFramePosition(0);
         mClip.start();
     }
@@ -48,5 +47,9 @@ public class AudioPlayer {
     public void Close(){
         Stop();
         mClip.close();
+    }
+
+    public boolean IsRunning(){
+        return mClip.isRunning();
     }
 }

@@ -15,6 +15,7 @@ public class Ship implements Collidable {
     private Point.Double mOrigin;
     private Point.Double mForwardVector;
     private AffineTransform mTransform;
+    private boolean mSpawnable = false;
 
 //    private double mThrust = 0;
 //    private boolean mThrusting = false;
@@ -59,9 +60,7 @@ public class Ship implements Collidable {
 
     public void Draw(Graphics g) {
         // do all the drawing...
-
         if (IsAlive()) {
-
             g.setColor(Color.WHITE);
             g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
 //        g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
@@ -169,6 +168,11 @@ public class Ship implements Collidable {
         return list;
     }
 
+
+    public void SetSpawnable(){
+        mSpawnable = true;
+    }
+
     @Override
     public void Collide(Collidable c) {
         if (c.GetName().contains("Asteroid")) {
@@ -180,7 +184,6 @@ public class Ship implements Collidable {
     public Rectangle GetBounds() {
         return new Polygon(mRenderArrayX, mRenderArrayY, mRenderArrayX.length).getBounds();
     }
-
 
     @Override
     public String GetName() {

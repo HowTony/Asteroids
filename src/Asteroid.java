@@ -8,7 +8,6 @@ public class Asteroid extends Polygon implements Collidable {
     private double mAsteroidScale;
     private Point.Double mPosition;
     private Point.Double mLargeAsteroidPointsArray[];
-
     private int mRenderArrayX[];
     private int mRenderArrayY[];
     private String mName;
@@ -19,10 +18,11 @@ public class Asteroid extends Polygon implements Collidable {
     private int mLastCollision = 0;
     private final int LARGE_ASTEROID_SCORE = 100;
     private final int SMALL_ASTEROID_SCORE = 25;
-
     private static int sId = 0;
+    private double mAsteroidDifficulty;
 
-    public Asteroid(String name, int size, Point.Double startPoint) {
+    public Asteroid(String name, int size, Point.Double startPoint, double difficulty) {
+        mAsteroidDifficulty = .05 * difficulty;
         mPosition = startPoint;
         mName = name;
         if (size == 1) {
@@ -30,8 +30,8 @@ public class Asteroid extends Polygon implements Collidable {
         } else {
             mAsteroidScale = mAsteroidSmall;
         }
-        mDeltaX = (Math.random() * 2) - 1;
-        mDeltaY = (Math.random() * 2) - 1;
+        mDeltaX = ((Math.random() * 2) - 1);
+        mDeltaY = ((Math.random() * 2) - 1);
         mIsAlive = true;
 
         mLargeAsteroidPointsArray = RandomAsteroid((int)(Math.random() * 5) + 1);
@@ -50,9 +50,6 @@ public class Asteroid extends Polygon implements Collidable {
     public void Draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.drawPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
-        //g.fillPolygon(mRenderArrayX, mRenderArrayY, mLargeAsteroidPointsArray.length);
-        //Rectangle test = this.GetBounds();
-        //g.drawRect((int)test.getX(),(int)test.getY(),test.width,test.height);
     }
 
 
@@ -69,10 +66,8 @@ public class Asteroid extends Polygon implements Collidable {
 
     public Double GetRandomNumber() {
         Double num = (1 +  Math.random() * 5) - 3;
-
         return num;
     }
-
 
     public double GetAsteroidSize() {
         return this.mAsteroidScale;
@@ -98,8 +93,8 @@ public class Asteroid extends Polygon implements Collidable {
             mPosition.y = maxHeight;
         }
 
-        mPosition.x += mDeltaX * SPEED_BUFFER * deltaTime;
-        mPosition.y += mDeltaY * SPEED_BUFFER * deltaTime;
+        mPosition.x += mDeltaX * SPEED_BUFFER * deltaTime * mAsteroidDifficulty;
+        mPosition.y += mDeltaY * SPEED_BUFFER * deltaTime  * mAsteroidDifficulty;
     }
 
     public void Update(double deltaTime) {
@@ -124,17 +119,9 @@ public class Asteroid extends Polygon implements Collidable {
         if (mIsAlive) {
             if (c.GetName().contains("Missile")) {
                 SetAlive(false);
-                //System.out.println(GetName() + " Collided with " + c.GetName() + "!");
-//            } else if (c.GetName().contains("Asteroid")) {
-//                Asteroid a = (Asteroid)c;
-//                this.ReverseDirection(a);
-//                //System.out.println(GetName() + " has Collided with " + c.GetName());
-            } else {
-                System.out.println("Ship hit asteroid");
             }
         }
     }
-
 
     public int GetScoreValue() {
         if (mAsteroidScale == mAsteroidLarge) {
@@ -206,9 +193,7 @@ public class Asteroid extends Polygon implements Collidable {
         return this.mName;
     }
 
-
     public Point.Double[] RandomAsteroid(int num){
-        System.out.println(num);
         Point.Double[] asteroid1 = new Point.Double[]{
                 new Point.Double(-2, -1),
                 new Point.Double(0, -2),

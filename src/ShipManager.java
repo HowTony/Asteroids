@@ -8,16 +8,18 @@ import java.util.List;
  */
 public class ShipManager {
 
-    private int mDeathTimer = 0;
+    private float mDeathTimer = 0;
     private AnimatedLine mDeathAnimation;
     private boolean mCurrentShipDied = false;
     private AudioPlayer mSoundFX;
+    private boolean mSafeSpawn = false;
 
     private List<Ship> mShipList = Collections.synchronizedList(new ArrayList<Ship>());
 
     public ShipManager() {
         AddShips();
         mSoundFX = new AudioPlayer("Resources/SFX/shipDeath.wav");
+
     }
 
     public void AddShips() {
@@ -31,7 +33,9 @@ public class ShipManager {
             if (mShipList.size() > 0) {
                 mShipList.get(0).Update(deltaTime);
             }
-            ManageShipList();
+            if (!mShipList.get(0).IsAlive()) {
+                ManageShipList(deltaTime);
+            }
         }
     }
 
@@ -40,9 +44,10 @@ public class ShipManager {
             mShipList.get(0).Draw(g);
         }
 
-        if(mCurrentShipDied){
+        if (mCurrentShipDied) {
             mDeathAnimation.Draw(g);
         }
+        //g.drawRect();
     }
 
     public int GetShipLives() {
@@ -57,30 +62,24 @@ public class ShipManager {
         }
     }
 
-    public void ManageShipList() {
-        List<Ship> list = new ArrayList<Ship>();
-        synchronized (mShipList) {
-            for (Ship eachShip : mShipList) {
-                if (!eachShip.IsAlive()) {
-                    list.add(eachShip);
-                }
-            }
-            for (Ship eachShip : list) {
-                if (mShipList.size() > 0) {
-                    mDeathTimer++;
-                    if(!mCurrentShipDied){
-                        mDeathAnimation = new AnimatedLine(eachShip);
-                        mCurrentShipDied = true;
-                        mSoundFX.Play();
-                    }
-                    mDeathAnimation.Update();
+    public void SetSafeSpawn(boolean b){
+        mSafeSpawn = b;
+    }
 
-                    if(mDeathTimer >= 50000) {
-                        mShipList.remove(eachShip);
-                        mDeathTimer = 0;
-                        mCurrentShipDied = false;
-                    }
-                }
+    public void ManageShipList(double deltatime) {
+        mDeathTimer += deltatime;
+        Ship eachShip = mShipList.get(0);
+        if (mShipList.size() > 0) {
+            if (!mCurrentShipDied) {
+                mDeathAnimation = new AnimatedLine(eachShip);
+                mCurrentShipDied = true;
+                mSoundFX.Play();
+            }
+            mDeathAnimation.Update(deltatime);
+            if (mDeathTimer >= 4.0f) {
+                mShipList.remove(eachShip);
+                mDeathTimer = 0;
+                mCurrentShipDied = false;
             }
         }
     }

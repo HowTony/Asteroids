@@ -11,22 +11,21 @@ public class GameLogic {
     private ScoreManager mScore;
     private ShipManager mShipList;
     private AudioPlayer mGameMusic;
+    private SafeSpawn mSafeZone;
 
 
     public GameLogic(GameWindow window) {
         mGameWindow = window;
-        mPhysics = new PhysicsEngine();
         mScore = new ScoreManager();
         mShipList = new ShipManager();
         mAsteroidManager = new AsteroidManager(mScore);
         mMissleManager = new MissileManager(mShipList);
         mUserInput = new UserInput(mShipList, mMissleManager);
+        mSafeZone = new SafeSpawn(mShipList, GameWindow.CANVAS_WIDTH * 3 / 7, GameWindow.CANVAS_HEIGHT * 3 / 8, 150, 150);
+        mPhysics = new PhysicsEngine(mSafeZone);
         mGameWindow.RegisterKeyListener(mUserInput);
         mHUD = new HUDManager(mScore, mShipList);
         mGameMusic = new AudioPlayer("Resources/Music/Plasma.wav");
-        mGameMusic.Play();
-
-
         StartGameLoop();
     }
 
@@ -69,6 +68,9 @@ public class GameLogic {
         mPhysics.AddCollidable(mAsteroidManager.GetAsteroids());
         mPhysics.AddCollidable(mMissleManager.GetMissiles());
         mShipList.Update(deltaTime);
+        if(!mGameMusic.IsRunning()){
+            mGameMusic.Play();
+        }
 
     }
 
