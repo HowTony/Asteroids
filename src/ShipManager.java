@@ -47,7 +47,6 @@ public class ShipManager {
         if (mCurrentShipDied) {
             mDeathAnimation.Draw(g);
         }
-        //g.drawRect();
     }
 
     public int GetShipLives() {
@@ -68,18 +67,20 @@ public class ShipManager {
 
     public void ManageShipList(double deltatime) {
         mDeathTimer += deltatime;
-        Ship eachShip = mShipList.get(0);
+        Ship currentShip = mShipList.get(0);
         if (mShipList.size() > 0) {
             if (!mCurrentShipDied) {
-                mDeathAnimation = new AnimatedLine(eachShip);
+                mDeathAnimation = new AnimatedLine(currentShip);
                 mCurrentShipDied = true;
                 mSoundFX.Play();
             }
             mDeathAnimation.Update(deltatime);
             if (mDeathTimer >= 4.0f) {
-                mShipList.remove(eachShip);
-                mDeathTimer = 0;
-                mCurrentShipDied = false;
+                if(!mSafeSpawn) {
+                    mShipList.remove(currentShip);
+                    mDeathTimer = 0;
+                    mCurrentShipDied = false;
+                }
             }
         }
     }

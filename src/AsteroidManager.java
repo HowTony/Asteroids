@@ -11,8 +11,7 @@ public class AsteroidManager {
     private ScoreManager mScore;
     private AudioPlayer mSoundFX;
     private double mAsteroidDifficulty = 1;
-    private int mID = 1;
-    private float mAsteroidSpawnTimer = 5;
+    private float mAsteroidSpawnTimer = 5f;
     private float mSpawnTimer = 0;
 
     public AsteroidManager(ScoreManager score) {
@@ -24,8 +23,8 @@ public class AsteroidManager {
 
     public void AddAsteroid() {
         synchronized (mAsteroidList) {
-            mAsteroidList.add(new Asteroid("Asteroid " + mID, 1, (new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT)), mAsteroidDifficulty));
-            mID++;
+            mAsteroidList.add(new Asteroid("Asteroid ", 1, (new Point.Double(Math.random() * GameWindow.CANVAS_WIDTH, Math.random() * GameWindow.CANVAS_HEIGHT)), mAsteroidDifficulty));
+            ;
         }
         mAsteroidDifficulty++;
     }
@@ -40,7 +39,7 @@ public class AsteroidManager {
 
     public void Update(double deltaTime) {
         mSpawnTimer += deltaTime;
-        if(mSpawnTimer >= 5.0f){
+        if(mSpawnTimer >= mAsteroidSpawnTimer){
             AddAsteroid();
             mSpawnTimer = 0;
         }
@@ -79,10 +78,10 @@ public class AsteroidManager {
             mAsteroidList.remove(eachAsteroid);
             mSoundFX.Play();
             if (eachAsteroid.GetAsteroidSize() > 7) {
-                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() - 20)), mAsteroidDifficulty));
-                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() + 20)), mAsteroidDifficulty));
-                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() + 20)), mAsteroidDifficulty));
-                mAsteroidList.add(new Asteroid("Asteroid " + mID, 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() - 20)), mAsteroidDifficulty));
+                mAsteroidList.add(new Asteroid("Asteroid ", 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() - 20)), mAsteroidDifficulty));
+                mAsteroidList.add(new Asteroid("Asteroid ", 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() + 20)), mAsteroidDifficulty));
+                mAsteroidList.add(new Asteroid("Asteroid ", 2, (new Point.Double(eachAsteroid.GetPosition().getX() - 20, eachAsteroid.GetPosition().getY() + 20)), mAsteroidDifficulty));
+                mAsteroidList.add(new Asteroid("Asteroid ", 2, (new Point.Double(eachAsteroid.GetPosition().getX() + 20, eachAsteroid.GetPosition().getY() - 20)), mAsteroidDifficulty));
             }
         }
     }

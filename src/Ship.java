@@ -15,10 +15,6 @@ public class Ship implements Collidable {
     private Point.Double mOrigin;
     private Point.Double mForwardVector;
     private AffineTransform mTransform;
-    private boolean mSpawnable = false;
-
-//    private double mThrust = 0;
-//    private boolean mThrusting = false;
 
     private double mRotationDelta;
     private String mName;
@@ -60,12 +56,14 @@ public class Ship implements Collidable {
 
     public void Draw(Graphics g) {
         // do all the drawing...
+
+        //Draw SafeZone
+        g.drawRect(GameWindow.CANVAS_WIDTH * 3 / 7, GameWindow.CANVAS_HEIGHT * 3 / 8, 150, 150);
+
+        //If ship is Alive draw it
         if (IsAlive()) {
             g.setColor(Color.WHITE);
             g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-//        g.fillPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
-//        Rectangle test = this.GetBounds();
-//        g.drawRect((int) test.getX(), (int) test.getY(), test.width, test.height);
         }
     }
 
@@ -92,16 +90,6 @@ public class Ship implements Collidable {
         // reset rotation in preparation for next draw
         mTransform.setToIdentity();
         mRotationDelta = 0D;
-
-//        if(mThrusting){
-//            Move();
-//        }
-//        if(mThrust > 0){
-//            RemoveThrust();
-//        }
-//        if(mThrusting && mThrust <= 0){
-//            SetThrusting(false);
-//        }
     }
 
 
@@ -118,19 +106,6 @@ public class Ship implements Collidable {
             mRotationDelta += theta * ROTATION_BUFFER;
         }
     }
-
-//    public void AddThrust(){
-//        if(mThrust < 150)
-//        mThrust += 0.00000001;
-//    }
-//
-//    public void RemoveThrust(){
-//        mThrust -= .0000001;
-//    }
-//
-//    public void SetThrusting(boolean b){
-//        mThrusting = b;
-//    }
 
     public Point GetRenderPoints(int point){
         return new Point(mRenderArrayX[point], mRenderArrayY[point]);
@@ -166,11 +141,6 @@ public class Ship implements Collidable {
             list.add(new Point.Double(mRenderArrayX[i],mRenderArrayY[i]));
         }
         return list;
-    }
-
-
-    public void SetSpawnable(){
-        mSpawnable = true;
     }
 
     @Override
