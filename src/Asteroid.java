@@ -20,9 +20,14 @@ public class Asteroid extends Polygon implements Collidable {
     private final int SMALL_ASTEROID_SCORE = 25;
     private static int sId = 0;
     private double mAsteroidDifficulty;
+    private double MAX_DIFF = 5;
 
     public Asteroid(String name, int size, Point.Double startPoint, double difficulty) {
-        mAsteroidDifficulty = .05 * difficulty;
+        if(difficulty < MAX_DIFF) {
+            mAsteroidDifficulty = difficulty;
+        }else{
+            mAsteroidDifficulty = MAX_DIFF;
+        }
         mPosition = startPoint;
         mName = name;
         if (size == 1) {

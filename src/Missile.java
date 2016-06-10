@@ -5,14 +5,12 @@ import java.awt.*;
  */
 public class Missile implements Collidable {
 
-    private final double SPEED_BUFFER = 250D;
+    private final double SPEED_BUFFER = 350D;
     private Point.Double mPosition;
     private ShipManager mShip;
     private Point.Double mDirection;
-    private Point.Double mStartPos;
     private String mName;
     private boolean mIsAlive;
-
     private double mDeltaX;
     private double mDeltaY;
 
@@ -20,7 +18,6 @@ public class Missile implements Collidable {
         mName = name;
         mShip = ship;
         mPosition = mShip.GetCurrentShip().GetMissleStart();
-        mStartPos = mShip.GetCurrentShip().GetMissleStart();
         mDirection = mShip.GetCurrentShip().GetmForwardVector();
         mIsAlive = true;
     }
@@ -28,16 +25,9 @@ public class Missile implements Collidable {
     public void Draw(Graphics g) {
         g.setColor(Color.WHITE);
         g.drawOval((int) mPosition.x, (int) mPosition.y, 2, 2);
-//        Rectangle test = this.GetBounds();
-//        g.drawRect((int)test.getX(), (int)test.getY(), test.width, test.height);
-    }
-
-    public int GetCurrentDistanceChange() {
-        return ((int) ((mStartPos.x - mPosition.x) + (mStartPos.y - mPosition.y)));
     }
 
     public void MissleMove(double deltaTime) {
-
         mPosition.x += mDirection.x * SPEED_BUFFER * deltaTime;
         mPosition.y += mDirection.y * SPEED_BUFFER * deltaTime;
     }
@@ -52,7 +42,6 @@ public class Missile implements Collidable {
         if (c.GetName().contains("Asteroid")) {
             if (mIsAlive) {
                 SetAlive(false);
-                System.out.println(GetName() + " Collided with " + c.GetName() + "!");
             }
         }
     }
@@ -107,7 +96,6 @@ public class Missile implements Collidable {
 
     @Override
     public void ReverseDirection(Collidable a) {
-
     }
 
 

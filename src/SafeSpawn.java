@@ -7,7 +7,6 @@ public class SafeSpawn{
 
     private int mWidth;
     private int mHeight;
-    private Point mPosition;
     private Rectangle mSafeZone;
     private boolean mIsSafe = false;
     private ShipManager mShips;
@@ -16,7 +15,6 @@ public class SafeSpawn{
         mWidth = width;
         mHeight = height;
         mShips = ships;
-        mPosition = new Point(posX, posY);
         mSafeZone = new Rectangle(posX, posY, mWidth, mHeight);
     }
 

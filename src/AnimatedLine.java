@@ -40,7 +40,7 @@ public class AnimatedLine {
     }
 
     public void Move(double deltaTime) {
-        move += 1 * deltaTime * SPEED_BUFFER;
+        move += deltaTime * SPEED_BUFFER;
     }
 
 }

@@ -5,8 +5,16 @@ import java.util.ArrayList;
 public class Ship implements Collidable {
 
     private final double ROTATION_BUFFER = 6D;
-    private final double SPEED_BUFFER = 150D;
+    private final double SPEED_BUFFER = 250D;
     private final double SHIP_SCALE = 4D;
+    private final float BLINK_TIME = 2.5f;
+    private float mBlinkCounter = 0f;
+    private int mAlpha = 255;
+    private final int ALPHA_MAX = 255;
+    private final int ALPHA_MIN = 100;
+    private boolean alphaZero = false;
+    private final float MAX_BLINK_DURATON = .20f;
+    private float mBlinkAlphaTimer = 0;
 
     // SHIP
     private int mPlayerX[];
@@ -18,6 +26,7 @@ public class Ship implements Collidable {
 
     private double mRotationDelta;
     private String mName;
+    private boolean mShipInvulnOnSpawn = true;
     private boolean mIsAlive = true;
     private Point.Double mShipPointsArray[];
     private int mRenderArrayX[];
@@ -55,19 +64,18 @@ public class Ship implements Collidable {
     }
 
     public void Draw(Graphics g) {
-        // do all the drawing...
-
-        //Draw SafeZone
-        g.drawRect(GameWindow.CANVAS_WIDTH * 3 / 7, GameWindow.CANVAS_HEIGHT * 3 / 8, 150, 150);
-
         //If ship is Alive draw it
         if (IsAlive()) {
-            g.setColor(Color.WHITE);
+            g.setColor(new Color(255, 255, 255, mAlpha));
             g.drawPolygon(mRenderArrayX, mRenderArrayY, mShipPointsArray.length);
         }
     }
 
     public void Update(double deltaTime) {
+        if (mShipInvulnOnSpawn) {
+            Blink(deltaTime);
+        }
+
         mTransform.rotate(mRotationDelta, 0, 0);
         mTransform.transform(mForwardVector, mForwardVector);
 
@@ -92,6 +100,27 @@ public class Ship implements Collidable {
         mRotationDelta = 0D;
     }
 
+    public void Blink(double deltaTime) {
+        mBlinkCounter += deltaTime;
+        mBlinkAlphaTimer += deltaTime;
+        if (mBlinkAlphaTimer >= MAX_BLINK_DURATON) {
+            if (mAlpha == ALPHA_MAX) {
+                alphaZero = false;
+            } else if (mAlpha == ALPHA_MIN) {
+                alphaZero = true;
+            }
+            if (alphaZero) {
+                mAlpha = ALPHA_MAX;
+            } else {
+                mAlpha = ALPHA_MIN;
+            }
+            mBlinkAlphaTimer = 0;
+        }
+        if (mBlinkCounter >= BLINK_TIME) {
+            mAlpha = ALPHA_MAX;
+            SetInvuln(false);
+        }
+    }
 
     public Point.Double GetmForwardVector() {
         return new Point.Double(mForwardVector.x, mForwardVector.y);
@@ -107,7 +136,7 @@ public class Ship implements Collidable {
         }
     }
 
-    public Point GetRenderPoints(int point){
+    public Point GetRenderPoints(int point) {
         return new Point(mRenderArrayX[point], mRenderArrayY[point]);
     }
 
@@ -135,18 +164,24 @@ public class Ship implements Collidable {
         }
     }
 
-    public ArrayList<Point.Double> GetRenderArray(){
+    public ArrayList<Point.Double> GetRenderArray() {
         ArrayList<Point.Double> list = new ArrayList<>();
-        for(int i = 0; i < mRenderArrayX.length; i++){
-            list.add(new Point.Double(mRenderArrayX[i],mRenderArrayY[i]));
+        for (int i = 0; i < mRenderArrayX.length; i++) {
+            list.add(new Point.Double(mRenderArrayX[i], mRenderArrayY[i]));
         }
         return list;
     }
 
+    public void SetInvuln(boolean b) {
+        mShipInvulnOnSpawn = b;
+    }
+
     @Override
     public void Collide(Collidable c) {
-        if (c.GetName().contains("Asteroid")) {
-            SetAlive(false);
+        if (!mShipInvulnOnSpawn) {
+            if (c.GetName().contains("Asteroid")) {
+                SetAlive(false);
+            }
         }
     }
 

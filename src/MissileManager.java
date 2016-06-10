@@ -21,12 +21,8 @@ public class MissileManager {
 
     public void AddMissile() {
         synchronized (mMissileList) {
-            if (mMissileList.size() < 8000) {
                 mMissileList.add(new Missile("Missile " + mID, mShip));
-//              System.out.println("num of missiles " + mMissileList.size());
-                mID++;
                 mSoundFX.Play();
-            }
         }
     }
 
@@ -38,7 +34,6 @@ public class MissileManager {
         synchronized (mMissileList) {
             for (Missile eachMissile : mMissileList) {
                 eachMissile.Draw(g);
-
             }
         }
     }

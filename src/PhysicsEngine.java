@@ -45,11 +45,12 @@ public class PhysicsEngine {
     public void Update(double deltaTime) {
         CheckCollision();
         ManageObjectList();
-        mSafeZone.SetIsSafe(IsSafeZoneDangerous());
+        //mSafeZone.SetIsSafe(IsSafeZoneDangerous());
         mSafeZone.Update(deltaTime);
     }
 
     public boolean IsSafeZoneDangerous(){
+        //adds save zone to spawn point(no longer needed)
         for(int i = 0; i < mGameObjectList.size(); i++){
             Collidable firstTestCase = mGameObjectList.get(i);
             if(firstTestCase.GetName().contains("Astero")){
